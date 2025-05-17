@@ -1,11 +1,11 @@
 {
   "memory": [
     {
-      "wallet": "0xabc123",
-      "last_action": "rebalance",
-      "amount": 900,
+      "wallet": "0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3",
+      "last_action": "deposit",
+      "amount": 0.005,
       "strategy": "auto_yield",
-      "timestamp": "2025-05-17T21:45:00Z"
+      "timestamp": "2025-05-18T00:30:00Z"
     }
   ],
   "agents": []
