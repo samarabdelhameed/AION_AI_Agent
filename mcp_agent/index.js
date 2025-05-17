@@ -11,17 +11,22 @@ app.use(bodyParser.json());
 // BNBChain public RPC
 const provider = new ethers.JsonRpcProvider('https://bsc-dataseed.binance.org/');
 
-// Home route
+// ✅ عقد AIONVault
+const contractABI = require('./abi/AIONVault.json').abi;
+const CONTRACT_ADDRESS = '0x048AC9bE9365053c5569daa9860cBD5671869188'; // غيّريه لو العقد اتنشر بعنوان تاني
+const vaultContract = new ethers.Contract(CONTRACT_ADDRESS, contractABI, provider);
+
+// 🏠 Home
 app.get('/', (req, res) => {
   res.send('👋 Welcome to the MCP Agent!');
 });
 
-// Ping route
+// 🟢 Ping
 app.get('/ping', (req, res) => {
   res.send('pong from MCP Agent');
 });
 
-// Get all memory
+// 📄 كل الذاكرة
 app.get('/memory/all', (req, res) => {
   try {
     const data = fs.readFileSync('memory.json');
@@ -33,7 +38,7 @@ app.get('/memory/all', (req, res) => {
   }
 });
 
-// Get memory for specific wallet
+// 📄 ذاكرة محفظة معينة
 app.get('/memory/:wallet', (req, res) => {
   const wallet = req.params.wallet;
 
@@ -53,7 +58,7 @@ app.get('/memory/:wallet', (req, res) => {
   }
 });
 
-// Add or update memory entry
+// 📝 إضافة/تحديث ذاكرة
 app.post('/memory', (req, res) => {
   const newEntry = req.body;
 
@@ -64,9 +69,9 @@ app.post('/memory', (req, res) => {
     const index = parsed.memory.findIndex(entry => entry.wallet === newEntry.wallet);
 
     if (index !== -1) {
-      parsed.memory[index] = newEntry; // Update existing
+      parsed.memory[index] = newEntry;
     } else {
-      parsed.memory.push(newEntry); // Add new
+      parsed.memory.push(newEntry);
     }
 
     fs.writeFileSync('memory.json', JSON.stringify(parsed, null, 2));
@@ -77,7 +82,7 @@ app.post('/memory', (req, res) => {
   }
 });
 
-// Real-time wallet balance on BNBChain
+// 💰 رصيد المحفظة على BNBChain
 app.get('/wallet/:address', async (req, res) => {
   const address = req.params.address;
 
@@ -95,7 +100,7 @@ app.get('/wallet/:address', async (req, res) => {
   }
 });
 
-// Analyze memory and suggest action
+// 📊 تحليل الاستراتيجية
 app.get('/analyze/:wallet', (req, res) => {
   const wallet = req.params.wallet;
 
@@ -123,6 +128,22 @@ app.get('/analyze/:wallet', (req, res) => {
   } catch (error) {
     console.error('❌ Error analyzing memory:', error.message);
     res.status(500).json({ error: 'Failed to analyze memory.' });
+  }
+});
+
+// 🔐 الاتصال بـ Vault Contract لعرض الرصيد من العقد
+app.get('/vault/:wallet', async (req, res) => {
+  const wallet = req.params.wallet;
+
+  try {
+    const vaultBalance = await vaultContract.balanceOf(wallet);
+    res.json({
+      wallet,
+      vaultBalance: ethers.formatEther(vaultBalance)
+    });
+  } catch (error) {
+    console.error('❌ Error reading vault contract:', error.message);
+    res.status(500).json({ error: 'Failed to fetch vault balance.' });
   }
 });
 

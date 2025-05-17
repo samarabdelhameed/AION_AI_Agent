@@ -24,8 +24,8 @@ contracts/
 │   ├── AIONVault.sol     # Main user vault
 │   └── Counter.sol       # Example/testing contract
 ├── test/                 # Forge test files (t.sol)
+├── script/               # Deployment & interaction scripts
 ├── lib/                  # External libraries (forge-std)
-├── script/               # Deployment scripts (optional)
 ├── foundry.toml          # Foundry configuration
 └── README.md             # This file
 ```
@@ -86,7 +86,29 @@ function balanceOf(address user) external view returns (uint256);
 | **Deployed Address** | [`0x048AC9bE9365053c5569daa9860cBD5671869188`](https://testnet.bscscan.com/address/0x048AC9bE9365053c5569daa9860cBD5671869188) |
 | **Deployment TX**    | [`0x601c86ad...`](https://testnet.bscscan.com/tx/0x601c86ad950e92c5d2314c3d683f15b029a6a5e771226060a517e0688f261480)           |
 | **Gas Used**         | 528,492 @ 5 gwei                                                                                                               |
-| **Broadcast Method** | forge script + .env (Foundry)                                                                                                  |
+| **Broadcast Method** | `forge script script/Deploy.s.sol --rpc-url bnbTestnet --private-key $PRIVATE_KEY --broadcast`                                 |
+
+---
+
+## 📤 Interaction via Script
+
+Using `InteractScript` in `Foundry`, we successfully executed deposit and withdraw operations:
+
+| Action     | Amount (BNB) | TX Hash                                                                                                            |
+| ---------- | ------------ | ------------------------------------------------------------------------------------------------------------------ |
+| Deposit    | 0.005        | [`0xeb1499...`](https://testnet.bscscan.com/tx/0xeb149918db1d4610504bdfcd8bb0359e1f5f8388d007caf275d729824019b946) |
+| Withdrawal | 0.002        | [`0xbfd43f...`](https://testnet.bscscan.com/tx/0xbfd43fc788f1da204ba5625005eec5def2ea6e2fee100fff71b3beb00cee2196) |
+
+**Script Summary**:
+
+```bash
+forge script script/Interact.s.sol:InteractScript --rpc-url bnbTestnet --private-key $PRIVATE_KEY --broadcast -vvvv
+```
+
+✅ Result:
+
+- `Deposit of 5000000000000000 BNB successful`
+- `Withdrawal of 2000000000000000 BNB successful`
 
 ---
 
