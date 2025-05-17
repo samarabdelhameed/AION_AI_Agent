@@ -1,48 +1,108 @@
-# Astro Starter Kit: Basics
+### `frontend/README.md`
 
-```sh
-bun create astro@latest -- --template basics
-```
+````markdown
+# 🌐 AION Frontend – Immortal AI Agent UI
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+This is the frontend interface for the **AION** project – an on-chain, immortal AI agent on **BNBChain**. It provides users with an intuitive and minimal interface to interact with the AI-powered agent, enabling one-click DeFi automation and insight retrieval.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Built using **Astro**, styled with **TailwindCSS**, and bundled with **Bun** for speed and efficiency.
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+---
 
-## 🚀 Project Structure
+## 🚀 Tech Stack
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Framework:** Astro 5.0
+- **Build Tool:** Bun
+- **Styling:** TailwindCSS
+- **UI Kit:** shadcn/ui (optional)
+- **Routing:** Astro file-based routing system
 
-```text
-/
-├── public/
-│   └── favicon.svg
+---
+
+## 📁 Folder Structure
+
+```bash
+frontend/
+├── public/               # Static assets
 ├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/       # Reusable UI components
+│   ├── pages/            # Astro pages (routing based on file name)
+│   ├── styles/           # Tailwind and global styles
+│   └── utils/            # Utility functions (optional)
+├── astro.config.mjs      # Astro config
+├── package.json          # Project metadata and scripts
+├── bun.lock              # Bun lock file
+├── tsconfig.json         # TypeScript config
+└── README.md             # This file
+```
+````
+
+---
+
+## 🛠 Setup & Installation
+
+Make sure you have [Bun](https://bun.sh/docs/installation) installed.
+
+```bash
+cd frontend
+bun install
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+---
 
-## 🧞 Commands
+## 💻 Running the Dev Server
 
-All commands are run from the root of the project, from a terminal:
+```bash
+bun run dev
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+Then open your browser at: [http://localhost:4321](http://localhost:4321)
 
-## 👀 Want to learn more?
+---
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 📸 Preview
+
+You’ll see a welcome screen from Astro with a message:
+
+```
+To get started, open the src/pages directory in your project.
+```
+
+If you have customized the homepage (like in AION), you'll see:
+
+```
+👁 AION
+Immortal AI Agent on BNBChain
+[Launch Agent]
+```
+
+---
+
+## 🧪 Testing (Manual)
+
+After running the dev server:
+
+- Visit `/` – Homepage UI
+- Click "Launch Agent" – connect to AI logic (coming soon)
+- Integrate with `/api/ping` from `mcp_agent` (planned)
+
+---
+
+## 🧩 Planned Features
+
+- Wallet connection (MetaMask or WalletConnect)
+- Real-time MCP agent integration
+- Strategy visualization (TVL, APY, gas fee stats)
+- Custom strategy builder UI
+- Dark mode + responsive layout
+
+---
+
+## 📄 License
+
+MIT © 2025
+
+```
+
+---
+```

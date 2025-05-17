@@ -1,66 +1,102 @@
-## Foundry
+### `contracts/README.md`
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+````markdown
+# 📜 AION Contracts – On-Chain DeFi Vault (Foundry)
 
-Foundry consists of:
+This directory contains the smart contracts powering the **AION** decentralized AI agent on **BNBChain**. The main contract is a lightweight vault (`AIONVault.sol`) that handles deposits, withdrawals, and balance tracking for users.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+Contracts are written in **Solidity**, tested with **Foundry**, and optimized for performance and composability within the AION agent flow.
 
-## Documentation
+---
 
-https://book.getfoundry.sh/
+## 🧱 Tech Stack
 
-## Usage
+- **Language:** Solidity `^0.8.20`
+- **Framework:** Foundry (Forge + Cast)
+- **Test Runner:** Forge
+- **Utilities:** forge-std
+- **Chain:** BNBChain (testnet/mainnet)
 
-### Build
+---
 
-```shell
-$ forge build
+## 📂 Folder Structure
+
+```bash
+contracts/
+├── src/                  # Core smart contracts
+│   ├── AIONVault.sol     # Main user vault
+│   └── Counter.sol       # Example/testing contract
+├── test/                 # Forge test files (t.sol)
+├── lib/                  # External libraries (forge-std)
+├── script/               # Deployment scripts (optional)
+├── foundry.toml          # Foundry configuration
+└── README.md             # This file
+```
+````
+
+---
+
+## ⚙️ Setup
+
+> Requires: [Foundry installed](https://book.getfoundry.sh/getting-started/installation)
+
+```bash
+cd contracts
+forge install              # install dependencies (e.g., forge-std)
+forge build                # compile contracts
 ```
 
-### Test
+---
 
-```shell
-$ forge test
+## 🧪 Run Tests
+
+```bash
+forge test -vvvv
 ```
 
-### Format
+### ✅ Test Coverage
 
-```shell
-$ forge fmt
+| Test Case                        | Status  |
+| -------------------------------- | ------- |
+| Deposit increases balance        | ✅ PASS |
+| BalanceOf returns correct value  | ✅ PASS |
+| Withdraw reduces balance         | ✅ PASS |
+| Reverts on over-withdraw attempt | ✅ PASS |
+
+Each test simulates a user interaction and ensures correct internal accounting. Custom errors and event logs are verified.
+
+---
+
+## 🔐 AIONVault.sol Overview
+
+```solidity
+function deposit() external payable;
+function withdraw(uint256 amount) external;
+function balanceOf(address user) external view returns (uint256);
 ```
 
-### Gas Snapshots
+- Emits `Deposited` and `Withdrawn` events
+- Uses `msg.sender` and `msg.value` for native token handling
+- Prevents over-withdrawal using a custom revert error
 
-```shell
-$ forge snapshot
+---
+
+## 🧩 Planned Upgrades
+
+- ERC-20 deposit/withdraw support
+- ZK-based access controls
+- Intent-aware callbacks from the MCP AI Agent
+- LayerZero / cross-chain hooks
+
+---
+
+## 📄 License
+
+MIT © 2025 – Samar Abdelhameed
+
 ```
 
-### Anvil
+---
 
-```shell
-$ anvil
-```
 
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
 ```
