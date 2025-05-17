@@ -1,6 +1,3 @@
-### `contracts/README.md`
-
-````markdown
 # 📜 AION Contracts – On-Chain DeFi Vault (Foundry)
 
 This directory contains the smart contracts powering the **AION** decentralized AI agent on **BNBChain**. The main contract is a lightweight vault (`AIONVault.sol`) that handles deposits, withdrawals, and balance tracking for users.
@@ -32,7 +29,6 @@ contracts/
 ├── foundry.toml          # Foundry configuration
 └── README.md             # This file
 ```
-````
 
 ---
 
@@ -81,6 +77,19 @@ function balanceOf(address user) external view returns (uint256);
 
 ---
 
+## 🚀 Deployed to BNB Testnet
+
+| Item                 | Value                                                                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Network**          | BNBChain Testnet (Chain ID: 97)                                                                                                |
+| **Contract Name**    | AIONVault                                                                                                                      |
+| **Deployed Address** | [`0x048AC9bE9365053c5569daa9860cBD5671869188`](https://testnet.bscscan.com/address/0x048AC9bE9365053c5569daa9860cBD5671869188) |
+| **Deployment TX**    | [`0x601c86ad...`](https://testnet.bscscan.com/tx/0x601c86ad950e92c5d2314c3d683f15b029a6a5e771226060a517e0688f261480)           |
+| **Gas Used**         | 528,492 @ 5 gwei                                                                                                               |
+| **Broadcast Method** | forge script + .env (Foundry)                                                                                                  |
+
+---
+
 ## 🧩 Planned Upgrades
 
 - ERC-20 deposit/withdraw support
@@ -95,8 +104,5 @@ function balanceOf(address user) external view returns (uint256);
 MIT © 2025 – Samar Abdelhameed
 
 ```
-
----
-
 
 ```

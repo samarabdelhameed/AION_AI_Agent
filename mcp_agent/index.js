@@ -64,9 +64,9 @@ app.post('/memory', (req, res) => {
     const index = parsed.memory.findIndex(entry => entry.wallet === newEntry.wallet);
 
     if (index !== -1) {
-      parsed.memory[index] = newEntry; // Update existing entry
+      parsed.memory[index] = newEntry; // Update existing
     } else {
-      parsed.memory.push(newEntry); // Add new entry
+      parsed.memory.push(newEntry); // Add new
     }
 
     fs.writeFileSync('memory.json', JSON.stringify(parsed, null, 2));
@@ -92,6 +92,37 @@ app.get('/wallet/:address', async (req, res) => {
   } catch (error) {
     console.error('❌ Error fetching wallet data:', error.message);
     res.status(500).json({ error: 'Failed to fetch wallet data' });
+  }
+});
+
+// Analyze memory and suggest action
+app.get('/analyze/:wallet', (req, res) => {
+  const wallet = req.params.wallet;
+
+  try {
+    const data = fs.readFileSync('memory.json');
+    const parsed = JSON.parse(data);
+    const userMemory = parsed.memory.find(entry => entry.wallet === wallet);
+
+    if (!userMemory) {
+      return res.status(404).json({ message: 'No memory found for this wallet.' });
+    }
+
+    const suggestion = userMemory.amount > 800
+      ? 'Consider rebalancing or staking'
+      : 'Hold position and monitor';
+
+    res.json({
+      wallet: userMemory.wallet,
+      strategy: userMemory.strategy,
+      last_action: userMemory.last_action,
+      suggested_action: suggestion,
+      timestamp: userMemory.timestamp
+    });
+
+  } catch (error) {
+    console.error('❌ Error analyzing memory:', error.message);
+    res.status(500).json({ error: 'Failed to analyze memory.' });
   }
 });
 
