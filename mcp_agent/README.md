@@ -11,7 +11,8 @@ It provides a local server that exposes RESTful endpoints for interacting with t
 This directory contains:
 
 - `index.js`: Express-based Node.js server
-- `memory.json`: Persistent memory store
+- `agent_memory.py`: Python script to log memory into Unibase (Membase)
+- `memory.json`: (Deprecated) fallback local memory
 - `abi/`: ABI definitions for smart contracts (e.g., `AIONVault.json`)
 - `.env`: Environment configuration (RPC, signer, contract address)
 
@@ -19,11 +20,12 @@ This directory contains:
 
 ## 🛠 Setup & Installation
 
-Make sure you have [Node.js](https://nodejs.org) and [npm](https://www.npmjs.com/) installed.
+Make sure you have [Node.js](https://nodejs.org), [npm](https://www.npmjs.com/), and [Python 3.10+](https://www.python.org/) installed.
 
 ```bash
 cd mcp_agent
 npm install
+pip install git+https://github.com/unibaseio/membase.git
 ```
 
 Create a `.env` file with the following:
@@ -47,6 +49,28 @@ node index.js
 ```
 🚀 MCP Agent is listening at http://localhost:3001
 ```
+
+---
+
+## ✅ Unibase Memory Integration (Membase)
+
+This agent uses [Membase SDK](https://github.com/unibaseio/membase) to log all vault activity on-chain via sovereign memory.
+
+### 📄 Script
+
+`agent_memory.py` takes wallet interactions and logs them into Unibase:
+
+```bash
+python3 agent_memory.py 0xabc123 deposit auto_yield 0.01
+```
+
+> ✅ Memory saved to Unibase
+
+### 🎯 Functionality
+
+- `MultiMemory` used instead of `memory.json`
+- `Message()` from Unibase SDK with `role="user"` or `"assistant"`
+- Automatically called from `/vault/deposit` and `/vault/withdraw` handlers
 
 ---
 
@@ -101,6 +125,8 @@ curl -X POST http://localhost:3001/vault/withdraw \
 - `GET /gas-price`: fetch gas data from BNBChain
 - `POST /recommend`: AI response based on memory/metrics
 - Authentication layer for agent/contract roles
+- Agent-to-agent interoperability with BitAgent (via AIP SDK)
+- Unibase DA proof and long-term task coordination
 
 ---
 
