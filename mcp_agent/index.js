@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const { ethers } = require('ethers');
+const { exec } = require('child_process');
 require('dotenv').config();
 
 const app = express();
@@ -20,12 +21,11 @@ const signer = new ethers.Wallet(PRIVATE_KEY, provider);
 const contractABI = require('./abi/AIONVault.json').abi;
 const vaultContract = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer);
 
-// ✅ تحديث التاريخ (history.json)
 function updateHistory(wallet, bnbBalance, vaultBalance) {
   const file = 'history.json';
   const today = new Date().toISOString().split('T')[0];
-
   let history = {};
+
   if (fs.existsSync(file)) {
     history = JSON.parse(fs.readFileSync(file));
   }
@@ -36,21 +36,18 @@ function updateHistory(wallet, bnbBalance, vaultBalance) {
 
   const alreadyExists = history[wallet].some(entry => entry.date === today);
   if (!alreadyExists) {
-    history[wallet].push({ date: today, bnb: parseFloat(bnbBalance), vault: parseFloat(vaultBalance) });
+    history[wallet].push({
+      date: today,
+      bnb: parseFloat(bnbBalance),
+      vault: parseFloat(vaultBalance)
+    });
     fs.writeFileSync(file, JSON.stringify(history, null, 2));
   }
 }
 
-// 🏠 Home
-app.get('/', (req, res) => {
-  res.send('👋 Welcome to the MCP Agent!');
-});
+app.get('/', (req, res) => res.send('👋 Welcome to the MCP Agent!'));
+app.get('/ping', (req, res) => res.send('pong from MCP Agent'));
 
-app.get('/ping', (req, res) => {
-  res.send('pong from MCP Agent');
-});
-
-// 📄 Memory Endpoints
 app.get('/memory/all', (req, res) => {
   try {
     const data = fs.readFileSync('memory.json');
@@ -88,18 +85,15 @@ app.post('/memory', (req, res) => {
   }
 });
 
-// 💰 Wallet Balance
 app.get('/wallet/:address', async (req, res) => {
-  const address = req.params.address;
   try {
-    const balance = await provider.getBalance(address);
-    res.json({ wallet: address, balanceBNB: ethers.formatEther(balance) });
+    const balance = await provider.getBalance(req.params.address);
+    res.json({ wallet: req.params.address, balanceBNB: ethers.formatEther(balance) });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch wallet.' });
   }
 });
 
-// 📊 Analyze Strategy
 app.get('/analyze/:wallet', (req, res) => {
   const wallet = req.params.wallet;
   try {
@@ -124,21 +118,23 @@ app.get('/analyze/:wallet', (req, res) => {
   }
 });
 
-// 🏦 Vault Balance
 app.get('/vault/:wallet', async (req, res) => {
-  const wallet = req.params.wallet;
   try {
-    const vaultBalance = await vaultContract.balanceOf(wallet);
-    res.json({ wallet, vaultBalance: ethers.formatEther(vaultBalance) });
+    const vaultBalance = await vaultContract.balanceOf(req.params.wallet);
+    res.json({ wallet: req.params.wallet, vaultBalance: ethers.formatEther(vaultBalance) });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch vault balance.' });
   }
 });
 
-// 💸 Deposit
 app.post('/vault/deposit', async (req, res) => {
   const { amount, wallet } = req.body;
   try {
+    const minAmount = 0.0000001;
+    if (parseFloat(amount) < minAmount) {
+      return res.status(400).json({ error: `Minimum deposit is ${minAmount} BNB.` });
+    }
+
     const tx = await vaultContract.deposit({ value: ethers.parseEther(amount) });
     await tx.wait();
 
@@ -146,16 +142,29 @@ app.post('/vault/deposit', async (req, res) => {
     const vault = await vaultContract.balanceOf(wallet);
     updateHistory(wallet, ethers.formatEther(bnb), ethers.formatEther(vault));
 
+    exec(`python3 mcp_agent/agent_memory.py ${wallet} deposit auto_yield ${amount}`, (err, stdout, stderr) => {
+      if (err) console.error("❌ Unibase memory logging failed:", stderr);
+      else console.log("✅ Unibase memory saved:", stdout);
+    });
+
     res.json({ message: `✅ Deposited ${amount} BNB`, txHash: tx.hash });
   } catch (error) {
+    console.error("❌ Deposit Error:", error);
     res.status(500).json({ error: 'Failed to deposit.' });
   }
 });
 
-// 🔓 Withdraw
 app.post('/vault/withdraw', async (req, res) => {
-  const { amount, wallet } = req.body;
+  let { amount, wallet } = req.body;
+  if (!wallet) wallet = await signer.getAddress();
+
+  if (!amount || parseFloat(amount) < 0.0000001) {
+    amount = "0.0000001";
+  }
+
   try {
+    console.log("🔥 Withdraw initiated:", amount, "BNB from", wallet);
+
     const tx = await vaultContract.withdraw(ethers.parseEther(amount));
     await tx.wait();
 
@@ -163,34 +172,36 @@ app.post('/vault/withdraw', async (req, res) => {
     const vault = await vaultContract.balanceOf(wallet);
     updateHistory(wallet, ethers.formatEther(bnb), ethers.formatEther(vault));
 
+    exec(`python3 mcp_agent/agent_memory.py ${wallet} withdraw auto_yield ${amount}`, (err, stdout, stderr) => {
+      if (err) console.error("❌ Unibase memory logging failed:", stderr);
+      else console.log("✅ Unibase memory saved:", stdout);
+    });
+
     res.json({ message: `✅ Withdrawn ${amount} BNB`, txHash: tx.hash });
   } catch (error) {
+    console.error("❌ Withdraw Error:", error);
     res.status(500).json({ error: 'Failed to withdraw.' });
   }
 });
 
-// 🔗 Share Memory
 app.get('/share/:wallet', (req, res) => {
-  const wallet = req.params.wallet;
   try {
     const data = fs.readFileSync('memory.json');
     const parsed = JSON.parse(data);
-    const userMemory = parsed.memory.find(entry => entry.wallet === wallet);
+    const userMemory = parsed.memory.find(entry => entry.wallet === req.params.wallet);
     if (!userMemory) return res.status(404).json({ message: 'No memory found.' });
-    res.json({ sharedWith: "BitAgent", wallet, data: userMemory });
+    res.json({ sharedWith: "BitAgent", wallet: req.params.wallet, data: userMemory });
   } catch (error) {
     res.status(500).json({ error: 'Failed to share memory.' });
   }
 });
 
-// 📈 History Endpoint
 app.get('/history/:wallet', (req, res) => {
-  const wallet = req.params.wallet;
   try {
     const data = fs.readFileSync('history.json');
     const parsed = JSON.parse(data);
-    if (!parsed[wallet]) return res.status(404).json({ message: 'No history found.' });
-    res.json(parsed[wallet]);
+    if (!parsed[req.params.wallet]) return res.status(404).json({ message: 'No history found.' });
+    res.json(parsed[req.params.wallet]);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch history.' });
   }

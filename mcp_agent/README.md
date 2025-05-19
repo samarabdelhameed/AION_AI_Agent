@@ -2,25 +2,33 @@
 
 This module powers the decentralized AI agent logic for **AION**, integrating **Membase** for sovereign memory and **BitAgent** for cross-platform intelligence.
 
-It provides a local server that exposes RESTful endpoints for interacting with the memory layer, contract logic (AIONVault), and supporting the frontend/backend AI workflows.
+It provides a local server that exposes RESTful endpoints for interacting with the memory layer, contract logic (`AIONVault`), and supporting frontend/backend AI workflows.
 
 ---
 
 ## 📁 Folder Structure
 
-This directory contains:
-
-- `index.js`: Express-based Node.js server
-- `agent_memory.py`: Python script to log memory into Unibase (Membase)
-- `memory.json`: (Deprecated) fallback local memory
-- `abi/`: ABI definitions for smart contracts (e.g., `AIONVault.json`)
-- `.env`: Environment configuration (RPC, signer, contract address)
+```bash
+mcp_agent/
+├── index.js                 # Node.js backend server
+├── agent_memory.py         # Python script to log memory into Unibase
+├── memory.json             # (Legacy) fallback local memory
+├── history.json            # Tracks daily balances of wallets
+├── abi/                    # Contract ABIs (e.g., AIONVault.json)
+├── .env                    # Contains RPC_URL, PRIVATE_KEY, CONTRACT_ADDRESS
+└── README.md               # This file
+```
 
 ---
 
 ## 🛠 Setup & Installation
 
-Make sure you have [Node.js](https://nodejs.org), [npm](https://www.npmjs.com/), and [Python 3.10+](https://www.python.org/) installed.
+Make sure you have:
+
+- [Node.js](https://nodejs.org)
+- [npm](https://www.npmjs.com/)
+- [Python 3.10+](https://www.python.org/)
+- [Foundry](https://book.getfoundry.sh/) (for smart contract deployment)
 
 ```bash
 cd mcp_agent
@@ -28,7 +36,7 @@ npm install
 pip install git+https://github.com/unibaseio/membase.git
 ```
 
-Create a `.env` file with the following:
+Create a `.env` file like this:
 
 ```env
 RPC_URL=https://data-seed-prebsc-1-s1.binance.org:8545
@@ -44,7 +52,7 @@ CONTRACT_ADDRESS=0x048AC9bE9365053c5569daa9860cBD5671869188
 node index.js
 ```
 
-> Default port is `3001`. You’ll see:
+Expected output:
 
 ```
 🚀 MCP Agent is listening at http://localhost:3001
@@ -52,88 +60,82 @@ node index.js
 
 ---
 
-## ✅ Unibase Memory Integration (Membase)
+## ✅ What’s New / Changes Implemented
 
-This agent uses [Membase SDK](https://github.com/unibaseio/membase) to log all vault activity on-chain via sovereign memory.
+### 🔒 Min Amount Thresholds
 
-### 📄 Script
+- Minimum deposit: `0.0000001` BNB
+- Minimum withdraw: `0.0000001` BNB
 
-`agent_memory.py` takes wallet interactions and logs them into Unibase:
+This ensures gas efficiency and avoids accidental misuse of funds.
 
-```bash
-python3 agent_memory.py 0xabc123 deposit auto_yield 0.01
-```
+### 🔁 Simplified Withdraw
 
-> ✅ Memory saved to Unibase
+Withdraw now uses the wallet from your `.env` (`PRIVATE_KEY`), so no need to send the wallet in the payload.
 
-### 🎯 Functionality
+### 💾 Memory & History Logging
 
-- `MultiMemory` used instead of `memory.json`
-- `Message()` from Unibase SDK with `role="user"` or `"assistant"`
-- Automatically called from `/vault/deposit` and `/vault/withdraw` handlers
+- Agent actions (`deposit`, `withdraw`) are saved to `memory.json`
+- Daily history tracked in `history.json`
+- Agent also logs events to `Unibase` via `agent_memory.py`
 
 ---
 
 ## ✅ Available Endpoints
 
-| Route              | Method | Description                       |
-| ------------------ | ------ | --------------------------------- |
-| `/`                | GET    | Welcome message                   |
-| `/ping`            | GET    | Returns heartbeat                 |
-| `/memory/all`      | GET    | All stored memory                 |
-| `/memory/:wallet`  | GET    | Memory for a specific wallet      |
-| `/analyze/:wallet` | GET    | Strategy analysis for wallet      |
-| `/wallet/:address` | GET    | Get BNB balance for address       |
-| `/vault/:wallet`   | GET    | Balance inside AIONVault contract |
-| `/vault/deposit`   | POST   | Deposit BNB to the vault          |
-| `/vault/withdraw`  | POST   | Withdraw BNB from the vault       |
+| Route              | Method | Description                          |
+| ------------------ | ------ | ------------------------------------ |
+| `/`                | GET    | Welcome message                      |
+| `/ping`            | GET    | Check if server is alive             |
+| `/memory/all`      | GET    | Returns memory for all wallets       |
+| `/memory/:wallet`  | GET    | Returns memory for a specific wallet |
+| `/memory`          | POST   | Add or update memory for a wallet    |
+| `/wallet/:address` | GET    | Get BNB balance for wallet           |
+| `/vault/:wallet`   | GET    | Get balance in vault for wallet      |
+| `/vault/deposit`   | POST   | Deposit BNB to vault                 |
+| `/vault/withdraw`  | POST   | Withdraw BNB from vault              |
+| `/history/:wallet` | GET    | Get daily balance logs               |
+| `/share/:wallet`   | GET    | Share memory with BitAgent           |
+| `/analyze/:wallet` | GET    | Get suggestion for wallet strategy   |
 
 ---
 
-## ✅ Sample Output (Live Test)
+## 🧪 Live Working Example
 
-All these examples were tested live with real blockchain data and working smart contract interaction:
+All commands tested and verified:
 
 ```bash
-curl http://localhost:3001/memory/all
-# [{"wallet":"0x1d58...ED3","last_action":"deposit","amount":0.005,"strategy":"auto_yield",...}]
+curl http://localhost:3001/ping
+# pong from MCP Agent
 
-curl http://localhost:3001/memory/0x1d58...ED3
-# {...}
+curl -X POST http://localhost:3001/vault/deposit   -H "Content-Type: application/json"   -d '{"amount": "0.00001", "wallet": "0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3"}'
+# ✅ Deposited 0.00001 BNB
 
-curl http://localhost:3001/analyze/0x1d58...ED3
-# {"suggested_action":"Hold position and monitor"}
+curl -X POST http://localhost:3001/vault/withdraw   -H "Content-Type: application/json"   -d '{"amount": "0.000001"}'
+# ✅ Withdrawn 0.000001 BNB
 
-curl http://localhost:3001/wallet/0x1d58...ED3
-# {"balanceBNB":"0.00577311"}
+curl http://localhost:3001/memory/0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3
+# shows latest deposit/withdraw strategy
 
-curl -X POST http://localhost:3001/vault/deposit \
-  -H "Content-Type: application/json" \
-  -d '{"amount": "0.001"}'
-# {"message":"✅ Deposited 0.001 BNB", "txHash": "0xb820...cf"}
+curl http://localhost:3001/analyze/0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3
+# Hold position and monitor
 
-curl -X POST http://localhost:3001/vault/withdraw \
-  -H "Content-Type: application/json" \
-  -d '{"amount": "0.0005"}'
-# {"message":"✅ Withdrawn 0.0005 BNB", "txHash": "0x9811...ff"}
+curl http://localhost:3001/share/0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3
+# Data shared with BitAgent ✅
 ```
 
 ---
 
-## 🧩 Future Additions
+## 🧩 Planned Additions
 
-- `GET /gas-price`: fetch gas data from BNBChain
-- `POST /recommend`: AI response based on memory/metrics
-- Authentication layer for agent/contract roles
-- Agent-to-agent interoperability with BitAgent (via AIP SDK)
-- Unibase DA proof and long-term task coordination
+- NLP Agent Integration (e.g. "should I stake today?")
+- Gas price monitoring: `/gas-price`
+- Agent-level access control (JWT / passkey)
+- Native multi-chain vault support
+- ZK login and per-user encrypted memory
 
 ---
 
 ## 📄 License
 
 MIT © 2025 – Samar Abdelhameed
-
-```
-
-```
