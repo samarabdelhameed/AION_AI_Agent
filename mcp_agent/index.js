@@ -21,6 +21,7 @@ const signer = new ethers.Wallet(PRIVATE_KEY, provider);
 const contractABI = require('./abi/AIONVault.json').abi;
 const vaultContract = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer);
 
+// 🧠 Update History
 function updateHistory(wallet, bnbBalance, vaultBalance) {
   const file = 'history.json';
   const today = new Date().toISOString().split('T')[0];
@@ -45,9 +46,11 @@ function updateHistory(wallet, bnbBalance, vaultBalance) {
   }
 }
 
+// 🏠 Basic Routes
 app.get('/', (req, res) => res.send('👋 Welcome to the MCP Agent!'));
 app.get('/ping', (req, res) => res.send('pong from MCP Agent'));
 
+// 🧠 Memory (legacy JSON)
 app.get('/memory/all', (req, res) => {
   try {
     const data = fs.readFileSync('memory.json');
@@ -85,6 +88,7 @@ app.post('/memory', (req, res) => {
   }
 });
 
+// 💰 Wallet Info
 app.get('/wallet/:address', async (req, res) => {
   try {
     const balance = await provider.getBalance(req.params.address);
@@ -94,6 +98,7 @@ app.get('/wallet/:address', async (req, res) => {
   }
 });
 
+// 📊 Strategy Analysis
 app.get('/analyze/:wallet', (req, res) => {
   const wallet = req.params.wallet;
   try {
@@ -118,6 +123,7 @@ app.get('/analyze/:wallet', (req, res) => {
   }
 });
 
+// 🏦 Vault Balance
 app.get('/vault/:wallet', async (req, res) => {
   try {
     const vaultBalance = await vaultContract.balanceOf(req.params.wallet);
@@ -127,6 +133,7 @@ app.get('/vault/:wallet', async (req, res) => {
   }
 });
 
+// 💸 Deposit BNB
 app.post('/vault/deposit', async (req, res) => {
   const { amount, wallet } = req.body;
   try {
@@ -142,9 +149,12 @@ app.post('/vault/deposit', async (req, res) => {
     const vault = await vaultContract.balanceOf(wallet);
     updateHistory(wallet, ethers.formatEther(bnb), ethers.formatEther(vault));
 
-    exec(`python3 mcp_agent/agent_memory.py ${wallet} deposit auto_yield ${amount}`, (err, stdout, stderr) => {
-      if (err) console.error("❌ Unibase memory logging failed:", stderr);
-      else console.log("✅ Unibase memory saved:", stdout);
+    exec(`python3 agent_memory.py ${wallet} deposit auto_yield ${amount}`, (err, stdout, stderr) => {
+      if (err) {
+        console.error("❌ Unibase memory logging failed:", stderr);
+      } else {
+        console.log("✅ Unibase memory saved:", stdout);
+      }
     });
 
     res.json({ message: `✅ Deposited ${amount} BNB`, txHash: tx.hash });
@@ -154,10 +164,10 @@ app.post('/vault/deposit', async (req, res) => {
   }
 });
 
+// 🔓 Withdraw BNB
 app.post('/vault/withdraw', async (req, res) => {
   let { amount, wallet } = req.body;
   if (!wallet) wallet = await signer.getAddress();
-
   if (!amount || parseFloat(amount) < 0.0000001) {
     amount = "0.0000001";
   }
@@ -172,9 +182,12 @@ app.post('/vault/withdraw', async (req, res) => {
     const vault = await vaultContract.balanceOf(wallet);
     updateHistory(wallet, ethers.formatEther(bnb), ethers.formatEther(vault));
 
-    exec(`python3 mcp_agent/agent_memory.py ${wallet} withdraw auto_yield ${amount}`, (err, stdout, stderr) => {
-      if (err) console.error("❌ Unibase memory logging failed:", stderr);
-      else console.log("✅ Unibase memory saved:", stdout);
+    exec(`python3 agent_memory.py ${wallet} withdraw auto_yield ${amount}`, (err, stdout, stderr) => {
+      if (err) {
+        console.error("❌ Unibase memory logging failed:", stderr);
+      } else {
+        console.log("✅ Unibase memory saved:", stdout);
+      }
     });
 
     res.json({ message: `✅ Withdrawn ${amount} BNB`, txHash: tx.hash });
@@ -184,6 +197,7 @@ app.post('/vault/withdraw', async (req, res) => {
   }
 });
 
+// 🔄 Share Memory with BitAgent
 app.get('/share/:wallet', (req, res) => {
   try {
     const data = fs.readFileSync('memory.json');
@@ -196,6 +210,7 @@ app.get('/share/:wallet', (req, res) => {
   }
 });
 
+// 📈 History
 app.get('/history/:wallet', (req, res) => {
   try {
     const data = fs.readFileSync('history.json');
@@ -207,6 +222,7 @@ app.get('/history/:wallet', (req, res) => {
   }
 });
 
+// ✅ Start Server
 app.listen(PORT, () => {
   console.log(`🚀 MCP Agent is listening at http://localhost:${PORT}`);
 });
