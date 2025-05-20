@@ -197,6 +197,13 @@ graph LR
     MCPAgent --> UI[Astro Dashboard]
 ```
 
+### 🔗 Unibase SDK Integration
+
+This project uses [`unibase-sdk-go`](https://github.com/unibaseio/unibase-sdk-go) as a submodule to interact with the decentralized AI memory layer (Membase). Make sure to run:
+
+````bash
+git submodule update --init --recursive
+
 ---
 
 ## 📈 Live Testing Examples
@@ -212,7 +219,7 @@ curl -X POST http://localhost:3001/vault/deposit \
 
 # Share memory
 curl http://localhost:3001/share/0x...
-```
+````
 
 ---
 
