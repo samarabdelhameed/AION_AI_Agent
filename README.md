@@ -8,8 +8,8 @@
 
 ## 🎥 Video & Presentation
 
-- 📹 **Demo Video:** `https://www.youtube.com/watch?v=h3Lq5KR6SMo`
-- 🎤 **Pitch Presentation:** `https://www.youtube.com/watch?v=h3Lq5KR6SMo`
+- 📹 [Demo Video](https://www.youtube.com/watch?v=h3Lq5KR6SMo)
+- 🎤 [Pitch Presentation](https://www.youtube.com/watch?v=h3Lq5KR6SMo)
 - 🧪 **Test Scenarios:** located in `test_scenarios/` with sample interaction JSON files
 
 ---
