@@ -197,17 +197,18 @@ app.post('/vault/withdraw', async (req, res) => {
   }
 });
 
-// 🔄 Share Memory with BitAgent
+// 🔁 Share Memory with BitAgent via aip_share.py
 app.get('/share/:wallet', (req, res) => {
-  try {
-    const data = fs.readFileSync('memory.json');
-    const parsed = JSON.parse(data);
-    const userMemory = parsed.memory.find(entry => entry.wallet === req.params.wallet);
-    if (!userMemory) return res.status(404).json({ message: 'No memory found.' });
-    res.json({ sharedWith: "BitAgent", wallet: req.params.wallet, data: userMemory });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to share memory.' });
-  }
+  const wallet = req.params.wallet;
+  exec(`python3 mcp_agent/aip_share.py ${wallet}`, (err, stdout, stderr) => {
+    if (err) {
+      console.error("❌ BitAgent share failed:", stderr);
+      res.status(500).send('❌ Failed to share memory with BitAgent');
+    } else {
+      console.log("✅ BitAgent share success:", stdout);
+      res.send(`✅ Memory shared with BitAgent for wallet: ${wallet}`);
+    }
+  });
 });
 
 // 📈 History
