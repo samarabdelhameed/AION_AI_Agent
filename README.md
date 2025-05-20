@@ -6,6 +6,14 @@
 
 ---
 
+## 🎥 Video & Presentation
+
+- 📹 **Demo Video:** `https://www.youtube.com/watch?v=h3Lq5KR6SMo`
+- 🎤 **Pitch Presentation:** `https://www.youtube.com/watch?v=h3Lq5KR6SMo`
+- 🧪 **Test Scenarios:** located in `test_scenarios/` with sample interaction JSON files
+
+---
+
 ## 🎯 Problem Statement
 
 > **Challenge:** Traditional DeFi bots are stateless, lack learning capabilities, and operate with no memory or coordination.
@@ -233,14 +241,6 @@ curl http://localhost:3001/share/0x...
 | 📲 Wallet Auth         | Add WebAuthn / Passkey login                          |
 | 🧠 AI Agent DAO        | Agent registry, governance, and upgradable behavior   |
 | 🎨 Frontend Completion | Add interactive Astro UI for live demo                |
-
----
-
-## 🎥 Video & Presentation
-
-- 📹 **Demo Video:** `videos/demo.mp4`
-- 🎤 **Pitch Presentation:** `videos/pitch.mp4`
-- 🧪 **Test Scenarios:** located in `test_scenarios/` with sample interaction JSON files
 
 ---
 
