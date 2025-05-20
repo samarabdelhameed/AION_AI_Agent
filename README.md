@@ -46,16 +46,16 @@ AION introduces a **decentralized, immortal AI agent** that:
 
 ### ⚙️ System Components:
 
-```mermaid
+````mermaid
 flowchart TD
     U[User] -->|Connect Wallet| UI[Frontend Astro UI]
     UI --> API[Node.js MCP API Server]
-    API --> MEM[memory.json / Membase Layer]
-    API --> AI[AI Strategy Layer (MCP + BitAgent)]
+    API --> MEM[Memory Layer: memory.json / Membase]
+    API --> AIStrategy[AI Strategy Layer - MCP & BitAgent]
     API --> SC[AIONVault Smart Contract]
     SC --> BNB[BNBChain Testnet]
     API --> Share[BitAgent Sync / AIP Protocol]
-```
+
 
 ### 🧠 Memory Interaction:
 
@@ -72,7 +72,7 @@ sequenceDiagram
     MCP_Agent->>Membase: Store action in memory.json
     MCP_Agent->>Contract: Interact (Deposit/Withdraw)
     MCP_Agent-->>Membase: Update memory with result
-```
+````
 
 ### 🔄 Cross-Agent Communication:
 
