@@ -10,6 +10,8 @@
 
 - 📹 [Demo Video - Test Scenarios](https://www.youtube.com/watch?v=V4Mc4OpblnY)
 - 🎤 [Pitch Presentation](https://www.youtube.com/watch?v=h3Lq5KR6SMo)
+- [x twitter](https://x.com/AION_Agent)
+- 🧪 **Test Scenarios:** located in `test_scenarios/` with sample interaction JSON files
 
 ---
 
