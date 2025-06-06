@@ -50,12 +50,12 @@ function updateHistory(wallet, bnbBalance, vaultBalance) {
 app.get('/', (req, res) => res.send('👋 Welcome to the MCP Agent!'));
 app.get('/ping', (req, res) => res.send('pong from MCP Agent'));
 
-// 🧠 Memory (legacy JSON)
+// 🧠 Memory (NEW structure: { walletAddress: [ array of entries ] })
 app.get('/memory/all', (req, res) => {
   try {
     const data = fs.readFileSync('memory.json');
     const parsed = JSON.parse(data);
-    res.json(parsed.memory);
+    res.json(parsed); // return all wallets + memories
   } catch (error) {
     res.status(500).json({ error: 'Failed to read memory file.' });
   }
@@ -66,21 +66,31 @@ app.get('/memory/:wallet', (req, res) => {
   try {
     const data = fs.readFileSync('memory.json');
     const parsed = JSON.parse(data);
-    const userMemory = parsed.memory.find(entry => entry.wallet === wallet);
-    userMemory ? res.json(userMemory) : res.status(404).json({ message: 'No memory found.' });
+    const userMemory = parsed[wallet];
+    userMemory && userMemory.length > 0
+      ? res.json(userMemory)
+      : res.status(404).json({ message: 'No memory found.' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to read memory file.' });
   }
 });
 
 app.post('/memory', (req, res) => {
-  const newEntry = req.body;
+  const { wallet, last_action, amount, strategy, timestamp } = req.body;
   try {
     const data = fs.readFileSync('memory.json');
     const parsed = JSON.parse(data);
-    const index = parsed.memory.findIndex(entry => entry.wallet === newEntry.wallet);
-    if (index !== -1) parsed.memory[index] = newEntry;
-    else parsed.memory.push(newEntry);
+
+    if (!parsed[wallet]) parsed[wallet] = [];
+
+    parsed[wallet].push({
+      wallet,
+      last_action,
+      amount,
+      strategy,
+      timestamp
+    });
+
     fs.writeFileSync('memory.json', JSON.stringify(parsed, null, 2));
     res.status(200).json({ message: 'Memory saved.' });
   } catch (error) {
@@ -104,19 +114,25 @@ app.get('/analyze/:wallet', (req, res) => {
   try {
     const data = fs.readFileSync('memory.json');
     const parsed = JSON.parse(data);
-    const userMemory = parsed.memory.find(entry => entry.wallet === wallet);
-    if (!userMemory) return res.status(404).json({ message: 'No memory found.' });
+    const userMemory = parsed[wallet];
 
-    const suggestion = userMemory.amount > 800
+    if (!userMemory || userMemory.length === 0) {
+      return res.status(404).json({ message: 'No memory found.' });
+    }
+
+    // نجيب آخر action (آخر واحدة في ال array)
+    const lastEntry = userMemory[userMemory.length - 1];
+
+    const suggestion = lastEntry.amount > 800
       ? 'Consider rebalancing or staking'
       : 'Hold position and monitor';
 
     res.json({
-      wallet: userMemory.wallet,
-      strategy: userMemory.strategy,
-      last_action: userMemory.last_action,
+      wallet: lastEntry.wallet,
+      strategy: lastEntry.strategy,
+      last_action: lastEntry.last_action,
       suggested_action: suggestion,
-      timestamp: userMemory.timestamp
+      timestamp: lastEntry.timestamp
     });
   } catch (error) {
     res.status(500).json({ error: 'Failed to analyze.' });

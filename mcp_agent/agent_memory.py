@@ -4,6 +4,8 @@ from membase.memory.multi_memory import MultiMemory
 from membase.memory.message import Message
 from membase.knowledge.chroma import ChromaKnowledgeBase
 from membase.knowledge.document import Document
+import json
+import os
 import sys
 
 # 🧠 إعداد MultiMemory لتخزين الذاكرة في Unibase
@@ -20,9 +22,18 @@ kb = ChromaKnowledgeBase(
     auto_upload_to_hub=True
 )
 
+# 🔄 تحميل memory.json لو موجود
+MEMORY_JSON_PATH = "./memory.json"
+
+if os.path.exists(MEMORY_JSON_PATH):
+    with open(MEMORY_JSON_PATH, "r") as f:
+        local_memory = json.load(f)
+else:
+    local_memory = {}
+
 # 🧠 تسجيل الذاكرة + 📚 تسجيل المعرفة
 def save_to_membase(wallet, action, strategy, amount):
-    # حفظ في Unibase memory
+    # 1️⃣ حفظ في Unibase memory
     msg = Message(
         name="AinonAgent",
         content=f"User performed {action} of {amount} BNB with strategy {strategy}",
@@ -35,14 +46,31 @@ def save_to_membase(wallet, action, strategy, amount):
     )
     mm.add(msg, wallet)
 
-    # حفظ في قاعدة المعرفة
+    # 2️⃣ حفظ في قاعدة المعرفة
     doc = Document(
         content=f"Executed {strategy} strategy via {action} of {amount} BNB",
         metadata={"wallet": wallet, "action": action, "source": "AinonAgent"}
     )
     kb.add_documents(doc)
 
+    # 3️⃣ تحديث memory.json (local)
+    event = {
+        "content": msg.content,
+        "role": msg.role,
+        "metadata": msg.metadata,
+        "created_at": msg.created_at
+    }
+
+    if wallet not in local_memory:
+        local_memory[wallet] = []
+
+    local_memory[wallet].append(event)
+
+    with open(MEMORY_JSON_PATH, "w") as f:
+        json.dump(local_memory, f, indent=2)
+
     print("✅ Memory & Knowledge saved successfully.")
+    print(f"✅ Local memory updated for wallet {wallet}.")
 
 # 🏁 تشغيل مباشر لو تم استدعاء السكربت من Node.js أو من CLI
 if __name__ == "__main__":
