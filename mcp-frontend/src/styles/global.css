@@ -5,17 +5,30 @@
 /* ✨ إعدادات الخط والخلفية العامة */
 body {
   font-family: 'Inter', system-ui, sans-serif;
-  @apply bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen;
+  @apply bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen antialiased leading-normal;
 }
 
 /* ✨ العناوين */
-h1, h2, h3 {
-  @apply font-bold text-cyan-400 tracking-tight;
+h1 {
+  @apply text-5xl font-extrabold text-cyan-400 tracking-tight mb-4;
+}
+
+h2 {
+  @apply text-3xl font-bold text-cyan-300 tracking-tight mb-3;
+}
+
+h3 {
+  @apply text-2xl font-bold text-cyan-200 tracking-tight mb-2;
 }
 
 /* ✨ الفقرات */
 p {
-  @apply leading-relaxed text-zinc-300;
+  @apply leading-relaxed text-zinc-300 mb-4;
+}
+
+/* ✨ الروابط */
+a {
+  @apply text-cyan-400 hover:text-cyan-300 transition-colors;
 }
 
 /* 🌟 أنيميشن دخول */

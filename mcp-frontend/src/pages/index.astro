@@ -1,27 +1,29 @@
 ---
+// src/pages/index.astro
 import MainLayout from '../layouts/MainLayout.astro';
+import WalletInfo from '../components/WalletInfo.jsx';
+import Web3Provider from '../components/Web3Provider.jsx';
+import ClientOnly from 'astro/client/only'; // ✅ مهم جدًا
 ---
 
 <MainLayout>
-  <section class="flex flex-col items-center justify-center min-h-screen text-center px-6 py-16 bg-gradient-to-b from-zinc-950 to-zinc-900">
-    <h1 class="text-5xl sm:text-6xl font-extrabold text-cyan-400 drop-shadow-md">
-      👁️ AION
-    </h1>
-
-    <h2 class="mt-4 text-2xl sm:text-3xl font-semibold text-white">
-      Immortal AI Agent on <span class="text-yellow-400">BNBChain</span>
-    </h2>
-
-    <p class="mt-6 max-w-xl text-zinc-400 text-base sm:text-lg leading-relaxed">
-      Your decentralized AI assistant with sovereign memory, real-time learning, and DeFi automation –
-      powered by <span class="text-cyan-300 font-medium">Membase</span> & <span class="text-cyan-300 font-medium">BitAgent</span>.
+  <section class="flex flex-col items-center justify-center min-h-screen text-center bg-gradient-to-r from-black via-gray-900 to-black text-white px-6">
+    <h1 class="text-5xl font-bold mb-4">👁️ AION AI Agent</h1>
+    <h2 class="text-xl mb-6">Immortal AI Agent on BNBChain</h2>
+    <p class="max-w-xl text-lg mb-8">
+      Your decentralized AI assistant with sovereign memory, real-time learning, and DeFi automation — powered by Membase & BitAgent.
     </p>
 
-    <a
-      href="/dashboard"
-      class="mt-10 inline-flex items-center gap-2 px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white text-lg font-semibold rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
-    >
-      🚀 Launch Agent
+    <!-- ✅ Web3Provider + WalletInfo داخل ClientOnly -->
+    <ClientOnly>
+      <Web3Provider>
+        <WalletInfo />
+      </Web3Provider>
+    </ClientOnly>
+
+    <!-- ✅ Dashboard link -->
+    <a href="/dashboard" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 mt-8">
+      🚀 Launch Agent Dashboard
     </a>
   </section>
 </MainLayout>
