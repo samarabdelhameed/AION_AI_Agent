@@ -1,45 +1,102 @@
 // src/components/WalletInfo.jsx
 'use client';
 
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useDisconnect, useNetwork } from 'wagmi';
+import { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
 
 export default function WalletInfo() {
-  const { address, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
-  const { chain } = useNetwork();
+  const [account, setAccount] = useState(null);
+  const [network, setNetwork] = useState(null);
 
-  // Check if on BNB Testnet (chain id 97 for BSC Testnet)
-  const isTestnet = chain?.id === 97;
+  // ✅ Connect Wallet Function
+  const connectWallet = async () => {
+    try {
+      if (window.ethereum) {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const address = await signer.getAddress();
+        setAccount(address);
+
+        const net = await provider.getNetwork();
+        setNetwork(net);
+      } else {
+        alert('MetaMask not detected');
+      }
+    } catch (err) {
+      console.error('Error connecting wallet:', err);
+    }
+  };
+
+  // ✅ Disconnect Wallet Function
+  const disconnectWallet = () => {
+    setAccount(null);
+    setNetwork(null);
+  };
+
+  // ✅ On mount, check if already connected
+  useEffect(() => {
+    const handleAccountsChanged = (accounts) => {
+      if (accounts.length > 0) {
+        setAccount(accounts[0]);
+      } else {
+        disconnectWallet();
+      }
+    };
+
+    const handleChainChanged = async () => {
+      await connectWallet();
+    };
+
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
+      window.ethereum.on('chainChanged', handleChainChanged);
+    }
+
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        window.ethereum.removeListener('chainChanged', handleChainChanged);
+      }
+    };
+  }, []);
+
+  // ✅ Check if on BNB Testnet (chainId 97)
+  const isTestnet = network?.chainId === 97;
 
   return (
-    <div className="flex flex-col items-center justify-center py-10 gap-4 animate-fade-in">
-      <h2 className="text-3xl font-bold text-white">Welcome to AION AI Agent 🚀</h2>
-      <p className="text-gray-300 mb-4">Connect your wallet to get started.</p>
+    <div className="bg-zinc-800 p-6 rounded-lg shadow space-y-4 text-center">
+      <h3 className="text-2xl font-bold mb-2">Wallet Info</h3>
 
       {/* ✅ Testnet Banner */}
       {isTestnet && (
-        <div className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold">
+        <div className="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold mb-2">
           ⚠️ You are on BNB Testnet
         </div>
       )}
 
-      {/* ✅ RainbowKit Connect Button */}
-      <ConnectButton />
-
-      {/* ✅ If connected, show wallet address and disconnect button */}
-      {isConnected && (
-        <div className="mt-6 flex flex-col items-center gap-2">
-          <p className="text-green-400 break-all text-center">
-            ✅ Connected: {address}
+      {/* ✅ Connect / Disconnect Buttons */}
+      {!account ? (
+        <button
+          onClick={connectWallet}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300"
+        >
+          🔌 Connect Wallet
+        </button>
+      ) : (
+        <>
+          <p className="text-green-400 break-all">
+            ✅ Connected: {account}
+          </p>
+          <p className="text-zinc-300 text-sm">
+            Network: {network?.name || 'Unknown'} (Chain ID: {network?.chainId})
           </p>
           <button
-            onClick={() => disconnect()}
-            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300"
+            onClick={disconnectWallet}
+            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300 mt-2"
           >
             🔌 Disconnect Wallet
           </button>
-        </div>
+        </>
       )}
     </div>
   );
