@@ -1,29 +1,43 @@
 ---
 // src/pages/index.astro
 import MainLayout from '../layouts/MainLayout.astro';
-import WalletInfo from '../components/WalletInfo.jsx';
 import Web3Provider from '../components/Web3Provider.jsx';
-import ClientOnly from 'astro/client/only'; // ✅ مهم جدًا
 ---
 
 <MainLayout>
   <section class="flex flex-col items-center justify-center min-h-screen text-center bg-gradient-to-r from-black via-gray-900 to-black text-white px-6">
-    <h1 class="text-5xl font-bold mb-4">👁️ AION AI Agent</h1>
-    <h2 class="text-xl mb-6">Immortal AI Agent on BNBChain</h2>
-    <p class="max-w-xl text-lg mb-8">
+
+    <!-- ✅ Logo -->
+    <img src="/logo.svg" alt="AION AI Agent Logo" class="w-24 h-24 mb-6 animate-fade-in" />
+
+    <!-- ✅ Title -->
+    <h1 class="text-5xl font-extrabold mb-3 tracking-tight animate-fade-in">
+      👁️ AION AI Agent
+    </h1>
+
+    <!-- ✅ Subtitle -->
+    <h2 class="text-xl mb-4 font-medium animate-fade-in">
+      Immortal AI Agent on BNBChain
+    </h2>
+
+    <!-- ✅ Description -->
+    <p class="max-w-xl text-lg mb-6 leading-relaxed animate-fade-in">
       Your decentralized AI assistant with sovereign memory, real-time learning, and DeFi automation — powered by Membase & BitAgent.
     </p>
 
-    <!-- ✅ Web3Provider + WalletInfo داخل ClientOnly -->
-    <ClientOnly>
-      <Web3Provider>
-        <WalletInfo />
-      </Web3Provider>
-    </ClientOnly>
+    <!-- ✅ Testnet Banner -->
+    <p class="bg-yellow-400 text-black font-semibold py-2 px-5 rounded mb-6 animate-fade-in">
+      ⚠️ You are connected to <strong>BNB Testnet</strong>
+    </p>
 
-    <!-- ✅ Dashboard link -->
-    <a href="/dashboard" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 mt-8">
+    <!-- ✅ Web3Provider with ConnectButton inside -->
+    <Web3Provider client:only="react" />
+
+    <!-- ✅ CTA Button -->
+    <a href="/dashboard"
+       class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-7 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 animate-fade-in">
       🚀 Launch Agent Dashboard
     </a>
+
   </section>
 </MainLayout>

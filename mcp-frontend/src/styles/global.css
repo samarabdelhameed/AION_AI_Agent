@@ -6,6 +6,8 @@
 body {
   font-family: 'Inter', system-ui, sans-serif;
   @apply bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen antialiased leading-normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ✨ العناوين */
@@ -28,13 +30,13 @@ p {
 
 /* ✨ الروابط */
 a {
-  @apply text-cyan-400 hover:text-cyan-300 transition-colors;
+  @apply text-cyan-400 hover:text-cyan-300 transition-colors break-words;
 }
 
 /* 🌟 أنيميشن دخول */
 @layer utilities {
   .animate-fade-in {
-    animation: fadeIn 0.6s ease-in-out both;
+    animation: fadeIn 0.8s ease-out both;
   }
 
   @keyframes fadeIn {
@@ -46,5 +48,15 @@ a {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  /* ✨ زر CTA Hover جميل */
+  .btn-cta {
+    @apply inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-7 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105;
+  }
+
+  /* ✨ Box Shadow Custom لو تحبي تستخدم */
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 0 0 10px rgba(0, 255, 255, 0.2);
   }
 }
