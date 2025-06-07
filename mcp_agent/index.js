@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors'); // ✅ CORS Added
 const fs = require('fs');
 const { ethers } = require('ethers');
 const { exec } = require('child_process');
@@ -8,6 +9,7 @@ require('dotenv').config();
 const app = express();
 const PORT = 3001;
 
+app.use(cors()); // ✅ Enable CORS
 app.use(bodyParser.json());
 
 const { RPC_URL, PRIVATE_KEY, CONTRACT_ADDRESS } = process.env;
@@ -50,12 +52,12 @@ function updateHistory(wallet, bnbBalance, vaultBalance) {
 app.get('/', (req, res) => res.send('👋 Welcome to the MCP Agent!'));
 app.get('/ping', (req, res) => res.send('pong from MCP Agent'));
 
-// 🧠 Memory (NEW structure: { walletAddress: [ array of entries ] })
+// 🧠 Memory
 app.get('/memory/all', (req, res) => {
   try {
     const data = fs.readFileSync('memory.json');
     const parsed = JSON.parse(data);
-    res.json(parsed); // return all wallets + memories
+    res.json(parsed);
   } catch (error) {
     res.status(500).json({ error: 'Failed to read memory file.' });
   }
@@ -91,7 +93,7 @@ app.post('/memory', (req, res) => {
       timestamp
     });
 
-    fs.writeFileSync('memory.json', JSON.stringify(parsed, null, 2));
+    fs.writeFileSync(file, JSON.stringify(parsed, null, 2));
     res.status(200).json({ message: 'Memory saved.' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to update memory.' });
@@ -120,7 +122,6 @@ app.get('/analyze/:wallet', (req, res) => {
       return res.status(404).json({ message: 'No memory found.' });
     }
 
-    // نجيب آخر action (آخر واحدة في ال array)
     const lastEntry = userMemory[userMemory.length - 1];
 
     const suggestion = lastEntry.amount > 800
@@ -213,7 +214,7 @@ app.post('/vault/withdraw', async (req, res) => {
   }
 });
 
-// 🔁 Share Memory with BitAgent via aip_share.py
+// 🔁 Share Memory with BitAgent
 app.get('/share/:wallet', (req, res) => {
   const wallet = req.params.wallet;
   exec(`python3 mcp_agent/aip_share.py ${wallet}`, (err, stdout, stderr) => {

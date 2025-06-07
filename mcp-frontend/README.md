@@ -86,6 +86,9 @@ After running the dev server:
 - Click "Launch Agent" – connect to AI logic (coming soon)
 - Integrate with `/api/ping` from `mcp_agent` (planned)
 
+- Memory Timeline reads live events (Deposit / Withdraw) from Vault Smart Contract on BNB Testnet.
+- Using BlastAPI RPC for high reliability and better limits.
+
 ---
 
 ## 🧩 Planned Features

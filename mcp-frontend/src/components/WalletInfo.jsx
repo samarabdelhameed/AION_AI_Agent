@@ -1,10 +1,9 @@
-// src/components/WalletInfo.jsx
 'use client';
 
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 
-export default function WalletInfo() {
+export default function WalletInfo({ setWalletAddress }) {
   const [account, setAccount] = useState(null);
   const [network, setNetwork] = useState(null);
 
@@ -15,7 +14,10 @@ export default function WalletInfo() {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
         const address = await signer.getAddress();
+
+        // Update state
         setAccount(address);
+        setWalletAddress(address);
 
         const net = await provider.getNetwork();
         setNetwork(net);
@@ -31,13 +33,15 @@ export default function WalletInfo() {
   const disconnectWallet = () => {
     setAccount(null);
     setNetwork(null);
+    setWalletAddress(null);
   };
 
-  // ✅ On mount, check if already connected
+  // ✅ On mount → Listen for wallet + chain changes
   useEffect(() => {
     const handleAccountsChanged = (accounts) => {
       if (accounts.length > 0) {
         setAccount(accounts[0]);
+        setWalletAddress(accounts[0]);
       } else {
         disconnectWallet();
       }
@@ -52,6 +56,7 @@ export default function WalletInfo() {
       window.ethereum.on('chainChanged', handleChainChanged);
     }
 
+    // Cleanup listeners on unmount
     return () => {
       if (window.ethereum) {
         window.ethereum.removeListener('accountsChanged', handleAccountsChanged);

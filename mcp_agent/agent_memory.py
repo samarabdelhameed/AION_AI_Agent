@@ -1,5 +1,3 @@
-# mcp_agent/agent_memory.py
-
 from membase.memory.multi_memory import MultiMemory
 from membase.memory.message import Message
 from membase.knowledge.chroma import ChromaKnowledgeBase
@@ -84,3 +82,5 @@ if __name__ == "__main__":
     amount = sys.argv[4]
 
     save_to_membase(wallet, action, strategy, amount)
+
+

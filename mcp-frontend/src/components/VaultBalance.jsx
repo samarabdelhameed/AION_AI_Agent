@@ -10,7 +10,6 @@ export default function VaultBalance() {
   const [balance, setBalance] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // 🟢 بدل PUBLIC_CONTRACT_ADDRESS خليها CONTRACT_ADDRESS عادي
   const CONTRACT_ADDRESS = import.meta.env.PUBLIC_CONTRACT_ADDRESS;
 
   const fetchBalance = async (userAddress) => {
