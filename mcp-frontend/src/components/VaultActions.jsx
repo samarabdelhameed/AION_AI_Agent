@@ -42,8 +42,9 @@ export default function VaultActions({ walletAddress }) {
         }),
       });
 
-      // ✅ Refresh MemoryTimeline after success
+      // ✅ Refresh MemoryTimeline + VaultBalance after success
       document.getElementById("refresh-memory-button")?.click();
+      document.getElementById("refresh-vault-balance-button")?.click();
 
       setAmount('');
     } catch (err) {
@@ -87,8 +88,9 @@ export default function VaultActions({ walletAddress }) {
         }),
       });
 
-      // ✅ Refresh MemoryTimeline after success
+      // ✅ Refresh MemoryTimeline + VaultBalance after success
       document.getElementById("refresh-memory-button")?.click();
+      document.getElementById("refresh-vault-balance-button")?.click();
 
       setAmount('');
     } catch (err) {

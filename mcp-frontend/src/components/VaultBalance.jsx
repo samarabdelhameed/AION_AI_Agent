@@ -67,6 +67,7 @@ export default function VaultBalance() {
         <h2 className="text-xl font-bold">Vault Balance</h2>
         {account && (
           <button
+            id="refresh-vault-balance-button" // ✅ Added ID here for programmatic refresh
             onClick={() => fetchBalance(account)}
             className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-bold py-1 px-3 rounded"
           >

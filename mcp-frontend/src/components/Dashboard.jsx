@@ -7,6 +7,7 @@ import VaultActions from './VaultActions.jsx';
 import MemoryTimeline from './MemoryTimeline.jsx';
 import AIRecommendation from './AIRecommendation.jsx';
 import Footer from './Footer.jsx';
+import EventLog from './EventLog.jsx'; // ✅ NEW — عشان هنضيف Event Log في Dashboard
 
 export default function Dashboard() {
   const [walletAddress, setWalletAddress] = useState(null);
@@ -62,6 +63,12 @@ export default function Dashboard() {
           {/* Memory Timeline */}
           <section className="bg-zinc-800 p-6 rounded-lg shadow-md animate-fade-in">
             <MemoryTimeline walletAddress={walletAddress} ref={memoryRefreshRef} />
+          </section>
+
+          {/* ✅ Event Log — بشكل واضح للـ Judges */}
+          <section className="bg-zinc-800 p-6 rounded-lg shadow-md animate-fade-in">
+            <h2 className="text-xl font-bold mb-3">📋 Event Log</h2>
+            <EventLog walletAddress={walletAddress} />
           </section>
         </div>
       </main>
