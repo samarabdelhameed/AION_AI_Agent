@@ -5,6 +5,7 @@ from membase.knowledge.document import Document
 import json
 import os
 import sys
+from datetime import datetime, timezone   # ✅ أضفنا timezone
 
 # 🧠 إعداد MultiMemory لتخزين الذاكرة في Unibase
 mm = MultiMemory(
@@ -39,7 +40,8 @@ def save_to_membase(wallet, action, strategy, amount):
         metadata={
             "wallet": wallet,
             "strategy": strategy,
-            "amount": amount
+            "amount": amount,
+            "last_action": action.lower()  # ✅ أفضل تكون lowercase للعرض في الـ Table
         }
     )
     mm.add(msg, wallet)
@@ -56,7 +58,11 @@ def save_to_membase(wallet, action, strategy, amount):
         "content": msg.content,
         "role": msg.role,
         "metadata": msg.metadata,
-        "created_at": msg.created_at
+        "created_at": getattr(
+            msg,
+            'created_at',
+            datetime.now(timezone.utc).isoformat()
+        )
     }
 
     if wallet not in local_memory:
@@ -82,5 +88,3 @@ if __name__ == "__main__":
     amount = sys.argv[4]
 
     save_to_membase(wallet, action, strategy, amount)
-
-

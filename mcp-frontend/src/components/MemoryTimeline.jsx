@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export default function MemoryTimeline({ walletAddress }) {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const fetchMemory = async () => {
+  const fetchMemory = useCallback(async () => {
     if (!walletAddress) {
       setEntries([]);
       setError('Please connect your wallet to view memory timeline.');
@@ -25,31 +25,31 @@ export default function MemoryTimeline({ walletAddress }) {
 
       const data = await response.json();
 
-      // لو data array أو object → بنرجع array
       const formatted = Array.isArray(data)
         ? data
         : data.length
         ? data
         : [];
 
-      setEntries(formatted.reverse()); // نعرض الأحدث فوق
+      setEntries(formatted.reverse());
     } catch (err) {
       console.error('MemoryTimeline Error:', err);
       setError('Failed to load memory timeline.');
     } finally {
       setLoading(false);
     }
-  };
+  }, [walletAddress]);
 
   useEffect(() => {
     fetchMemory();
-  }, [walletAddress]);
+  }, [walletAddress, fetchMemory]);
 
   return (
     <div className="flex flex-col bg-zinc-800 p-6 rounded-lg shadow-md animate-fade-in text-white">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">📜 Vault Memory Timeline</h2>
         <button
+          id="refresh-memory-button" // ✅ أضفت ID هنا
           onClick={fetchMemory}
           className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-bold py-1 px-3 rounded"
         >

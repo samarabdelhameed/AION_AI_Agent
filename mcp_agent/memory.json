@@ -9,6 +9,52 @@
         "amount": 0.005
       },
       "created_at": "2025-05-18T00:30:00Z"
+    },
+    {
+      "content": "User performed deposit of 0.001 BNB with strategy auto_yield",
+      "role": "assistant",
+      "metadata": {
+        "wallet": "0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3",
+        "strategy": "auto_yield",
+        "amount": "0.001",
+        "last_action": "Deposit",
+        "conversation": "0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3"
+      },
+      "created_at": "2025-06-07T06:09:20.504686Z"
+    },
+    {
+      "content": "User performed deposit of 0.001 BNB with strategy auto_yield",
+      "role": "assistant",
+      "metadata": {
+        "wallet": "0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3",
+        "strategy": "auto_yield",
+        "amount": "0.001",
+        "last_action": "Deposit",
+        "conversation": "0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3"
+      },
+      "created_at": "2025-06-07T06:41:43.391095Z"
+    },
+    {
+      "content": "User performed deposit of 0.0002 BNB with strategy auto_yield",
+      "role": "assistant",
+      "metadata": {
+        "wallet": "0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3",
+        "strategy": "auto_yield",
+        "amount": "0.0002",
+        "last_action": "deposit"
+      },
+      "created_at": "2025-06-07T07:50:18.204Z"
+    },
+    {
+      "content": "User performed withdraw of 0.00002 BNB with strategy auto_yield",
+      "role": "assistant",
+      "metadata": {
+        "wallet": "0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3",
+        "strategy": "auto_yield",
+        "amount": "0.00002",
+        "last_action": "withdraw"
+      },
+      "created_at": "2025-06-07T07:50:57.196Z"
     }
   ]
 }

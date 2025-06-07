@@ -45,6 +45,13 @@ PRIVATE_KEY=YOUR_PRIVATE_KEY_HERE
 CONTRACT_ADDRESS=0x048AC9bE9365053c5569daa9860cBD5671869188
 ```
 
+python3 agent_memory.py 0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3 deposit auto_yield 0.001
+
+/Users/s/ming-template/base hack/AION_AI_Agent/mcp_agent/agent_memory.py:61: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+"created_at": getattr(msg, 'created_at', datetime.utcnow().isoformat() + "Z") # ✅ Safe fallback
+✅ Memory & Knowledge saved successfully.
+✅ Local memory updated for wallet 0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3.
+
 ---
 
 ## 🚀 Running the Agent & Server

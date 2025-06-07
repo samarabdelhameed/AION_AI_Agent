@@ -1,15 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // ✅ CORS Added
+const cors = require('cors');
 const fs = require('fs');
 const { ethers } = require('ethers');
-const { exec } = require('child_process');
 require('dotenv').config();
 
 const app = express();
 const PORT = 3001;
 
-app.use(cors()); // ✅ Enable CORS
+app.use(cors());
 app.use(bodyParser.json());
 
 const { RPC_URL, PRIVATE_KEY, CONTRACT_ADDRESS } = process.env;
@@ -48,6 +47,29 @@ function updateHistory(wallet, bnbBalance, vaultBalance) {
   }
 }
 
+// 🧠 Update Memory JSON
+function updateMemory(wallet, action, amount, strategy = 'auto_yield') {
+  const file = 'memory.json';
+  const memoryData = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file)) : {};
+
+  if (!memoryData[wallet]) memoryData[wallet] = [];
+
+  const newEvent = {
+    content: `User performed ${action} of ${amount} BNB with strategy ${strategy}`,
+    role: 'assistant',
+    metadata: {
+      wallet,
+      strategy,
+      amount: parseFloat(amount),
+      last_action: action.charAt(0).toUpperCase() + action.slice(1)
+    },
+    created_at: new Date().toISOString()
+  };
+
+  memoryData[wallet].push(newEvent);
+  fs.writeFileSync(file, JSON.stringify(memoryData, null, 2));
+}
+
 // 🏠 Basic Routes
 app.get('/', (req, res) => res.send('👋 Welcome to the MCP Agent!'));
 app.get('/ping', (req, res) => res.send('pong from MCP Agent'));
@@ -79,18 +101,23 @@ app.get('/memory/:wallet', (req, res) => {
 
 app.post('/memory', (req, res) => {
   const { wallet, last_action, amount, strategy, timestamp } = req.body;
+  const file = 'memory.json';
   try {
-    const data = fs.readFileSync('memory.json');
+    const data = fs.readFileSync(file);
     const parsed = JSON.parse(data);
 
     if (!parsed[wallet]) parsed[wallet] = [];
 
     parsed[wallet].push({
-      wallet,
-      last_action,
-      amount,
-      strategy,
-      timestamp
+      content: `User performed ${last_action} of ${amount} BNB with strategy ${strategy}`,
+      role: 'assistant',
+      metadata: {
+        wallet,
+        strategy,
+        amount,
+        last_action
+      },
+      created_at: timestamp || new Date().toISOString()
     });
 
     fs.writeFileSync(file, JSON.stringify(parsed, null, 2));
@@ -124,16 +151,16 @@ app.get('/analyze/:wallet', (req, res) => {
 
     const lastEntry = userMemory[userMemory.length - 1];
 
-    const suggestion = lastEntry.amount > 800
+    const suggestion = lastEntry.metadata.amount > 800
       ? 'Consider rebalancing or staking'
       : 'Hold position and monitor';
 
     res.json({
-      wallet: lastEntry.wallet,
-      strategy: lastEntry.strategy,
-      last_action: lastEntry.last_action,
+      wallet: lastEntry.metadata.wallet,
+      strategy: lastEntry.metadata.strategy,
+      last_action: lastEntry.metadata.last_action || 'Unknown',
       suggested_action: suggestion,
-      timestamp: lastEntry.timestamp
+      timestamp: lastEntry.created_at
     });
   } catch (error) {
     res.status(500).json({ error: 'Failed to analyze.' });
@@ -166,13 +193,7 @@ app.post('/vault/deposit', async (req, res) => {
     const vault = await vaultContract.balanceOf(wallet);
     updateHistory(wallet, ethers.formatEther(bnb), ethers.formatEther(vault));
 
-    exec(`python3 agent_memory.py ${wallet} deposit auto_yield ${amount}`, (err, stdout, stderr) => {
-      if (err) {
-        console.error("❌ Unibase memory logging failed:", stderr);
-      } else {
-        console.log("✅ Unibase memory saved:", stdout);
-      }
-    });
+    updateMemory(wallet, 'deposit', amount);
 
     res.json({ message: `✅ Deposited ${amount} BNB`, txHash: tx.hash });
   } catch (error) {
@@ -199,33 +220,13 @@ app.post('/vault/withdraw', async (req, res) => {
     const vault = await vaultContract.balanceOf(wallet);
     updateHistory(wallet, ethers.formatEther(bnb), ethers.formatEther(vault));
 
-    exec(`python3 agent_memory.py ${wallet} withdraw auto_yield ${amount}`, (err, stdout, stderr) => {
-      if (err) {
-        console.error("❌ Unibase memory logging failed:", stderr);
-      } else {
-        console.log("✅ Unibase memory saved:", stdout);
-      }
-    });
+    updateMemory(wallet, 'withdraw', amount);
 
     res.json({ message: `✅ Withdrawn ${amount} BNB`, txHash: tx.hash });
   } catch (error) {
     console.error("❌ Withdraw Error:", error);
     res.status(500).json({ error: 'Failed to withdraw.' });
   }
-});
-
-// 🔁 Share Memory with BitAgent
-app.get('/share/:wallet', (req, res) => {
-  const wallet = req.params.wallet;
-  exec(`python3 mcp_agent/aip_share.py ${wallet}`, (err, stdout, stderr) => {
-    if (err) {
-      console.error("❌ BitAgent share failed:", stderr);
-      res.status(500).send('❌ Failed to share memory with BitAgent');
-    } else {
-      console.log("✅ BitAgent share success:", stdout);
-      res.send(`✅ Memory shared with BitAgent for wallet: ${wallet}`);
-    }
-  });
 });
 
 // 📈 History

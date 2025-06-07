@@ -63,7 +63,18 @@ export default function VaultBalance() {
 
   return (
     <div className="flex flex-col items-center justify-center py-6 px-6 bg-zinc-800 text-white rounded-lg shadow-md animate-fade-in">
-      <h2 className="text-xl font-bold mb-4">Vault Balance</h2>
+      <div className="flex justify-between items-center w-full mb-4">
+        <h2 className="text-xl font-bold">Vault Balance</h2>
+        {account && (
+          <button
+            onClick={() => fetchBalance(account)}
+            className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-bold py-1 px-3 rounded"
+          >
+            🔄 Refresh
+          </button>
+        )}
+      </div>
+
       {loading ? (
         <p className="text-gray-400">Loading...</p>
       ) : (

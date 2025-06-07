@@ -1,11 +1,10 @@
-// src/components/VaultActions.jsx
 'use client';
 
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import { vaultABI } from '../abi/vaultABI';
 
-export default function VaultActions() {
+export default function VaultActions({ walletAddress }) {
   const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
   const CONTRACT_ADDRESS = import.meta.env.PUBLIC_CONTRACT_ADDRESS;
@@ -16,6 +15,11 @@ export default function VaultActions() {
         alert('MetaMask not detected');
         return;
       }
+      if (!walletAddress) {
+        alert('Please connect your wallet first.');
+        return;
+      }
+
       setLoading(true);
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
@@ -24,6 +28,23 @@ export default function VaultActions() {
       const tx = await vaultContract.deposit({ value: ethers.parseEther(amount) });
       await tx.wait();
       alert(`✅ Deposit of ${amount} BNB successful!`);
+
+      // ✅ Call /memory API to log the event
+      await fetch('http://localhost:3001/memory', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          wallet: walletAddress,
+          last_action: 'deposit',
+          amount,
+          strategy: 'auto_yield',
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      // ✅ Refresh MemoryTimeline after success
+      document.getElementById("refresh-memory-button")?.click();
+
       setAmount('');
     } catch (err) {
       console.error('Deposit Error:', err);
@@ -39,6 +60,11 @@ export default function VaultActions() {
         alert('MetaMask not detected');
         return;
       }
+      if (!walletAddress) {
+        alert('Please connect your wallet first.');
+        return;
+      }
+
       setLoading(true);
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
@@ -47,6 +73,23 @@ export default function VaultActions() {
       const tx = await vaultContract.withdraw(ethers.parseEther(amount));
       await tx.wait();
       alert(`✅ Withdrawal of ${amount} BNB successful!`);
+
+      // ✅ Call /memory API to log the event
+      await fetch('http://localhost:3001/memory', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          wallet: walletAddress,
+          last_action: 'withdraw',
+          amount,
+          strategy: 'auto_yield',
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      // ✅ Refresh MemoryTimeline after success
+      document.getElementById("refresh-memory-button")?.click();
+
       setAmount('');
     } catch (err) {
       console.error('Withdraw Error:', err);

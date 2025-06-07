@@ -1,7 +1,6 @@
-// src/components/Dashboard.jsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import WalletInfo from './WalletInfo.jsx';
 import VaultBalance from './VaultBalance.jsx';
 import VaultActions from './VaultActions.jsx';
@@ -10,8 +9,10 @@ import AIRecommendation from './AIRecommendation.jsx';
 import Footer from './Footer.jsx';
 
 export default function Dashboard() {
-  // 🟢 Wallet Address state → عشان نبعته للـ AI + MemoryTimeline
   const [walletAddress, setWalletAddress] = useState(null);
+
+  // 🟢 Ref للـ MemoryTimeline Refresh Button → عشان VaultActions تقدر تعمل Refresh
+  const memoryRefreshRef = useRef(null);
 
   return (
     <div className="flex flex-col min-h-screen bg-black text-white">
@@ -40,7 +41,10 @@ export default function Dashboard() {
           {/* Vault Actions */}
           <section className="bg-zinc-800 p-6 rounded-lg shadow-md animate-fade-in">
             <h2 className="text-xl font-bold mb-3">Vault Actions</h2>
-            <VaultActions />
+            <VaultActions
+              walletAddress={walletAddress}
+              memoryRefreshRef={memoryRefreshRef} // ✅ ابعت الريف هنا
+            />
           </section>
         </div>
 
@@ -57,7 +61,7 @@ export default function Dashboard() {
 
           {/* Memory Timeline */}
           <section className="bg-zinc-800 p-6 rounded-lg shadow-md animate-fade-in">
-            <MemoryTimeline walletAddress={walletAddress} />
+            <MemoryTimeline walletAddress={walletAddress} ref={memoryRefreshRef} />
           </section>
         </div>
       </main>
