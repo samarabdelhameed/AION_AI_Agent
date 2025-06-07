@@ -21,15 +21,21 @@ export default function VaultActions({ walletAddress }) {
       }
 
       setLoading(true);
+
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const vaultContract = new ethers.Contract(CONTRACT_ADDRESS, vaultABI, signer);
 
       const tx = await vaultContract.deposit({ value: ethers.parseEther(amount) });
       await tx.wait();
+
+      // ✅ Get current balance after deposit
+      const currentBalanceBN = await vaultContract.balanceOf(walletAddress);
+      const currentBalance = ethers.formatEther(currentBalanceBN);
+
       alert(`✅ Deposit of ${amount} BNB successful!`);
 
-      // ✅ Call /memory API to log the event
+      // ✅ Call /memory API to log the event (with current_balance)
       await fetch('http://localhost:3001/memory', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -37,14 +43,15 @@ export default function VaultActions({ walletAddress }) {
           wallet: walletAddress,
           last_action: 'deposit',
           amount,
+          current_balance: currentBalance, // ✅ NEW FIELD
           strategy: 'auto_yield',
           timestamp: new Date().toISOString(),
         }),
       });
 
       // ✅ Refresh MemoryTimeline + VaultBalance after success
-      document.getElementById("refresh-memory-button")?.click();
-      document.getElementById("refresh-vault-balance-button")?.click();
+      document.getElementById('refresh-memory-button')?.click();
+      document.getElementById('refresh-vault-balance-button')?.click();
 
       setAmount('');
     } catch (err) {
@@ -67,15 +74,21 @@ export default function VaultActions({ walletAddress }) {
       }
 
       setLoading(true);
+
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const vaultContract = new ethers.Contract(CONTRACT_ADDRESS, vaultABI, signer);
 
       const tx = await vaultContract.withdraw(ethers.parseEther(amount));
       await tx.wait();
+
+      // ✅ Get current balance after withdraw
+      const currentBalanceBN = await vaultContract.balanceOf(walletAddress);
+      const currentBalance = ethers.formatEther(currentBalanceBN);
+
       alert(`✅ Withdrawal of ${amount} BNB successful!`);
 
-      // ✅ Call /memory API to log the event
+      // ✅ Call /memory API to log the event (with current_balance)
       await fetch('http://localhost:3001/memory', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -83,14 +96,15 @@ export default function VaultActions({ walletAddress }) {
           wallet: walletAddress,
           last_action: 'withdraw',
           amount,
+          current_balance: currentBalance, // ✅ NEW FIELD
           strategy: 'auto_yield',
           timestamp: new Date().toISOString(),
         }),
       });
 
       // ✅ Refresh MemoryTimeline + VaultBalance after success
-      document.getElementById("refresh-memory-button")?.click();
-      document.getElementById("refresh-vault-balance-button")?.click();
+      document.getElementById('refresh-memory-button')?.click();
+      document.getElementById('refresh-vault-balance-button')?.click();
 
       setAmount('');
     } catch (err) {

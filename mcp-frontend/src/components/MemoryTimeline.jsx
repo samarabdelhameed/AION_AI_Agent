@@ -76,6 +76,7 @@ const MemoryTimeline = forwardRef(function MemoryTimeline({ walletAddress }, ref
             <tr className="border-b border-zinc-700">
               <th className="pb-2">Action</th>
               <th className="pb-2">Amount (BNB)</th>
+              <th className="pb-2">Current Vault Balance (BNB)</th> {/* ✅ NEW COLUMN */}
               <th className="pb-2">Strategy</th>
               <th className="pb-2">Timestamp</th>
             </tr>
@@ -83,10 +84,21 @@ const MemoryTimeline = forwardRef(function MemoryTimeline({ walletAddress }, ref
           <tbody>
             {entries.map((entry, idx) => (
               <tr key={idx} className="border-t border-zinc-700">
-                <td className="py-2">{entry.metadata?.last_action || entry.last_action || 'Unknown'}</td>
-                <td className="py-2 text-green-400">{entry.metadata?.amount || entry.amount || 'N/A'}</td>
-                <td className="py-2">{entry.metadata?.strategy || entry.strategy || 'N/A'}</td>
-                <td className="py-2">{entry.created_at ? entry.created_at.split('T')[0] : 'N/A'}</td>
+                <td className="py-2">
+                  {entry.metadata?.last_action || entry.last_action || 'Unknown'}
+                </td>
+                <td className="py-2 text-green-400">
+                  {entry.metadata?.amount || entry.amount || 'N/A'}
+                </td>
+                <td className="py-2 text-yellow-400">
+                  {entry.metadata?.current_balance || entry.current_balance || 'N/A'}
+                </td>
+                <td className="py-2">
+                  {entry.metadata?.strategy || entry.strategy || 'N/A'}
+                </td>
+                <td className="py-2">
+                  {entry.created_at ? entry.created_at.split('T')[0] : 'N/A'}
+                </td>
               </tr>
             ))}
           </tbody>

@@ -121,6 +121,28 @@
         "last_action": "deposit"
       },
       "created_at": "2025-06-07T10:12:29.926Z"
+    },
+    {
+      "content": "User performed deposit of 0.0001 BNB with strategy auto_yield",
+      "role": "assistant",
+      "metadata": {
+        "wallet": "0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3",
+        "strategy": "auto_yield",
+        "amount": "0.0001",
+        "last_action": "deposit"
+      },
+      "created_at": "2025-06-07T11:19:49.939Z"
+    },
+    {
+      "content": "User performed deposit of 0.0001 BNB with strategy auto_yield",
+      "role": "assistant",
+      "metadata": {
+        "wallet": "0x1d58afB3a049DAd98Ab5219fb1FF768E1E3B2ED3",
+        "strategy": "auto_yield",
+        "amount": "0.0001",
+        "last_action": "deposit"
+      },
+      "created_at": "2025-06-07T15:05:10.916Z"
     }
   ]
 }

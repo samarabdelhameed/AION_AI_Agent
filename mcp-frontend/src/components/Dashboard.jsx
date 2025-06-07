@@ -7,12 +7,13 @@ import VaultActions from './VaultActions.jsx';
 import MemoryTimeline from './MemoryTimeline.jsx';
 import AIRecommendation from './AIRecommendation.jsx';
 import Footer from './Footer.jsx';
-import EventLog from './EventLog.jsx'; // ✅ NEW
+import EventLog from './EventLog.jsx';
+import VaultChart from './VaultChart.jsx'; // ✅ NEW — Chart component
 
 export default function Dashboard() {
   const [walletAddress, setWalletAddress] = useState(null);
 
-  // 🟢 Ref للـ MemoryTimeline Refresh Button
+  // Ref للـ MemoryTimeline Refresh Button
   const memoryRefreshRef = useRef(null);
 
   return (
@@ -53,13 +54,16 @@ export default function Dashboard() {
           </section>
         </div>
 
-        {/* Row 3: Memory Timeline */}
+        {/* Row 3: Vault Balance Chart */}
+        <VaultChart walletAddress={walletAddress} />
+
+        {/* Row 4: Memory Timeline */}
         <section className="bg-zinc-800 p-6 rounded-lg shadow-md animate-fade-in">
           <h2 className="text-xl font-bold mb-3">📜 Vault Memory Timeline</h2>
           <MemoryTimeline walletAddress={walletAddress} ref={memoryRefreshRef} />
         </section>
 
-        {/* Row 4: Event Log */}
+        {/* Row 5: Event Log */}
         <section className="bg-zinc-800 p-6 rounded-lg shadow-md animate-fade-in">
           <h2 className="text-xl font-bold mb-3">📋 Event Log</h2>
           <EventLog walletAddress={walletAddress} />
