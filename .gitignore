@@ -1,3 +1,4 @@
 .env
 mcp-frontend/.env
 mcp_agent/.env
+.DS_Store
