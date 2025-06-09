@@ -4,4 +4,5 @@ out = "out"
 libs = ["lib"]
 
 [rpc_endpoints]
-bnbTestnet = "${RPC_URL}"
+bnbTestnet = "${BNB_RPC_URL}"
+bnbMainnet = "${BNB_MAINNET_RPC_URL}"

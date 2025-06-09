@@ -9,6 +9,7 @@
 ## 🎥 Video & Presentation
 
 - 📹 [Demo Video - Test Scenarios](https://www.youtube.com/watch?v=V4Mc4OpblnY)
+- 📹 [Demo Video - Frontend integration](https://youtu.be/JL1IHw7m5PY)
 - 🎤 [Pitch Presentation](https://www.youtube.com/watch?v=h3Lq5KR6SMo)
 - [x twitter](https://x.com/AION_Agent)
 - 🧪 **Test Scenarios:** located in `test_scenarios/` with sample interaction JSON files
@@ -164,13 +165,78 @@ AION_Agent/
 
 ---
 
+---
+
+## 🚀 Deployment Status (mainnet)
+
+The **AIONVault** smart contract has been successfully deployed to the **BNB Mainnet**:
+
+| Item                 | Value                                                                                                                                                             |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Network**          | BNB Mainnet (Chain ID: 56)                                                                                                                                        |
+| **Contract Name**    | `AIONVault`                                                                                                                                                       |
+| **Contract Address** | [`0x732bDE5798f20D96F71cdFC805227E97a4822090`](https://bscscan.com/address/0x732bDE5798f20D96F71cdFC805227E97a4822090)                                            |
+| **Deployment TX**    | [`0xd747570d16a0362260a2aa39130ec9284ab72a23e16ac08a43b0e74cfec48343`](https://bscscan.com/tx/0xd747570d16a0362260a2aa39130ec9284ab72a23e16ac08a43b0e74cfec48343) |
+| **Block**            | `51097893`                                                                                                                                                        |
+| **Gas Used**         | `528,492` gas @ `0.1 gwei`                                                                                                                                        |
+| **Total Cost**       | `0.0000528492 BNB`                                                                                                                                                |
+| **Deployer Wallet**  | New SAFE Wallet used ✅                                                                                                                                           |
+
+**Deployment Successful ✅ — Onchain Execution Complete**
+
+---
+
+## ✅ Live Mainnet Testing
+
+A full E2E testing of the MCP Agent → AIONVault Mainnet → Unibase Memory → AI Timeline flow was conducted successfully.
+
+### 🔍 Test Scenario:
+
+| Step | Action                | Wallet Used                                              | Result                                                                                                                                                                             |
+| ---- | --------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1️⃣   | Deposit 0.0001 BNB    | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655`             | ✅ Success → TX: [`0x89d4fd7c9d02794215ae8c0dccfd6ecf140526a73ae154fec4a976b61e83104b`](https://bscscan.com/tx/0x89d4fd7c9d02794215ae8c0dccfd6ecf140526a73ae154fec4a976b61e83104b) |
+| 2️⃣   | Withdraw 0.00002 BNB  | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655`             | ✅ Success → TX: [`0x99912be600c244dde5b11cccbf15e28fc48cd25a24a390c95142f1b374867ff0`](https://bscscan.com/tx/0x99912be600c244dde5b11cccbf15e28fc48cd25a24a390c95142f1b374867ff0) |
+| 3️⃣   | Check Memory Timeline | API `/memory/0x14D7795A2566Cd16eaA1419A26ddB643CE523655` | ✅ Returned full Timeline-ready Memory                                                                                                                                             |
+
+---
+
+### 🧠 Timeline Memory Example (API Result)
+
+````json
+[
+  {
+    "content": "User performed deposit of 0.0001 BNB with strategy auto_yield",
+    "role": "assistant",
+    "metadata": {
+      "wallet": "0x14D7795A2566Cd16eaA1419A26ddB643CE523655",
+      "strategy": "auto_yield",
+      "amount": 0.0001,
+      "last_action": "Deposit"
+    },
+    "created_at": "2025-06-09T05:10:20.663Z"
+  },
+  {
+    "content": "User performed withdraw of 0.00002 BNB with strategy auto_yield",
+    "role": "assistant",
+    "metadata": {
+      "wallet": "0x14D7795A2566Cd16eaA1419A26ddB643CE523655",
+      "strategy": "auto_yield",
+      "amount": 0.00002,
+      "last_action": "Withdraw"
+    },
+    "created_at": "2025-06-09T05:11:32.738Z"
+  }
+]
+
+---
+
 ## 🔐 Smart Contract – AIONVault.sol
 
 ```solidity
 function deposit() external payable;
 function withdraw(uint256 amount) external;
 function balanceOf(address user) external view returns (uint256);
-```
+````
 
 - ✅ Emits `Deposited` and `Withdrawn`
 - ✅ Prevents over-withdrawals

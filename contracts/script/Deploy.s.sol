@@ -6,11 +6,8 @@ import "../src/AIONVault.sol";
 
 contract DeployAIONVault is Script {
     function run() external {
-        // نحمل الـ PRIVATE_KEY من .env باستخدام Forge Std
-        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
-
-        // نبدأ البث باستخدام المفتاح الخاص
-        vm.startBroadcast(deployerPrivateKey);
+        // نبدأ البث بدون الحاجة لتحميل PRIVATE_KEY داخل الكود
+        vm.startBroadcast();
 
         // ننشر العقد
         new AIONVault();
