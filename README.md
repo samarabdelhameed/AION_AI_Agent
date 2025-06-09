@@ -169,6 +169,90 @@ AION_Agent/
 
 ## 🚀 Deployment Status (mainnet)
 
+## 🚀 Deployment Status (mainnet)
+
+The **AIONVault** smart contract has been successfully deployed to the **BNB Mainnet**:
+
+| Item                 | Value                                                                                                                                                             |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Network**          | BNB Mainnet (Chain ID: 56)                                                                                                                                        |
+| **Contract Name**    | `AIONVault`                                                                                                                                                       |
+| **Contract Address** | [`0x732bDE5798f20D96F71cdFC805227E97a4822090`](https://bscscan.com/address/0x732bDE5798f20D96F71cdFC805227E97a4822090)                                            |
+| **Deployment TX**    | [`0xd747570d16a0362260a2aa39130ec9284ab72a23e16ac08a43b0e74cfec48343`](https://bscscan.com/tx/0xd747570d16a0362260a2aa39130ec9284ab72a23e16ac08a43b0e74cfec48343) |
+| **Block**            | `51097893`                                                                                                                                                        |
+| **Gas Used**         | `528,492` gas @ `0.1 gwei`                                                                                                                                        |
+| **Total Cost**       | `0.0000528492 BNB`                                                                                                                                                |
+| **Deployer Wallet**  | New SAFE Wallet used ✅                                                                                                                                           |
+
+**Deployment Successful ✅ — Onchain Execution Complete**
+
+---
+
+## ✅ Contract Verification
+
+After deploying the **AIONVault** contract to the **BNB Mainnet**, the contract was fully verified on both:
+
+- ✅ **Sourcify**
+- ✅ **BscScan** (official BNB Mainnet explorer)
+
+---
+
+### 🔍 Verification Process
+
+#### Step 1 — Verify via Sourcify
+
+```bash
+forge verify-contract --chain-id 56 \
+0x732bDE5798f20D96F71cdFC805227E97a4822090 \
+src/AIONVault.sol:AIONVault \
+--watch
+```
+
+**Result:**
+
+```
+Contract successfully verified on Sourcify.
+```
+
+---
+
+#### Step 2 — Verify via BscScan
+
+```bash
+forge verify-contract --verifier etherscan \
+--etherscan-api-key $BSCSCAN_API_KEY \
+--chain-id 56 \
+0x732bDE5798f20D96F71cdFC805227E97a4822090 \
+src/AIONVault.sol:AIONVault \
+--watch
+```
+
+**Result:**
+
+```
+Contract verification status:
+Response: `OK`
+Details: `Pass - Verified`
+Contract successfully verified on BscScan.
+```
+
+---
+
+### 🔗 Live Verified Contract
+
+- [✅ View on BscScan (Verified)](https://bscscan.com/address/0x732bDE5798f20D96F71cdFC805227E97a4822090#code)
+
+---
+
+### 🎯 Summary
+
+✅ The **AIONVault.sol** smart contract is now:
+
+- ✅ Verified on **Sourcify** → ensures transparency and open source compliance.
+- ✅ Verified on **BscScan** → fully visible on-chain to hackathon judges and users.
+
+---
+
 The **AIONVault** smart contract has been successfully deployed to the **BNB Mainnet**:
 
 | Item                 | Value                                                                                                                                                             |
