@@ -228,6 +228,61 @@ forge script script/DeployAIONVault.s.sol:DeployAIONVault \
 
 ---
 
+## 📊 **Live UI Testing Results (Read Contract)**
+
+We have successfully tested the `AIONVault` contract's read functions directly on the BscScan UI, confirming their correct operation and data retrieval.
+
+**Contract Address:** [`0x2756079D9a706D21944C1B80BAdf6B316e02daF1`](https://testnet.bscscan.com/address/0x2756079d9a706d21944c1b80badf6b316e02daf1#readContract)
+
+| Function Name        | Input (if any)                               | Observed Output (Decoded)                    | Status  |
+| :------------------- | :------------------------------------------- | :------------------------------------------- | :------ |
+| `minDeposit()`       | N/A                                          | 0.01 BNB (10000000000000000)                 | ✅ PASS |
+| `minYieldClaim()`    | N/A                                          | 0.001 BNB (1000000000000000)                 | ✅ PASS |
+| `owner()`            | N/A                                          | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655` | ✅ PASS |
+| `paused()`           | N/A                                          | `False`                                      | ✅ PASS |
+| `strategy()`         | N/A                                          | `0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF` | ✅ PASS |
+| `strategyLocked()`   | N/A                                          | `False`                                      | ✅ PASS |
+| `totalDeposits()`    | N/A                                          | 0                                            | ✅ PASS |
+| `aiAgent()`          | N/A                                          | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655` | ✅ PASS |
+| `balanceOf(address)` | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655` | 0.01 BNB (10000000000000000)                 | ✅ PASS |
+| `balances(address)`  | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655` | 0.01 BNB (10000000000000000)                 | ✅ PASS |
+
+### 🎯 **Key Findings:**
+
+- **✅ Contract Configuration:** All parameters correctly set
+- **✅ User Balance:** Successfully showing 0.01 BNB deposit
+- **✅ Strategy Integration:** Properly linked to StrategyVenus
+- **✅ AI Agent:** Correctly set to deployer address
+- **✅ Contract State:** Active and unlocked
+
+---
+
+## 🚀 **Live UI Testing Results (Write Contract)**
+
+**Contract Address:** [`0x2756079D9a706D21944C1B80BAdf6B316e02daF1`](https://testnet.bscscan.com/address/0x2756079d9a706d21944c1b80badf6b316e02daf1#writeContract)
+
+| Function Name               | Parameters (if any)        | Transaction Status | Gas Used        | Status     |
+| :-------------------------- | :------------------------- | :----------------- | :-------------- | :--------- |
+| `deposit()`                 | Value: 0.01 BNB            | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
+| `withdraw(uint256 amount)`  | amount: 0.005 BNB          | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
+| `withdrawAll()`             | N/A                        | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
+| `claimYield()`              | N/A                        | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
+| `setMinDeposit(uint256)`    | \_minDeposit: 0.02 BNB     | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
+| `setMinYieldClaim(uint256)` | \_minYieldClaim: 0.002 BNB | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
+| `pause()`                   | N/A                        | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
+| `unpause()`                 | N/A                        | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
+| `emergencyWithdraw()`       | N/A                        | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
+
+### 📝 **Testing Instructions:**
+
+1. **Go to Write Contract tab** on BscScan
+2. **Connect your wallet** (MetaMask)
+3. **Test each function** one by one
+4. **Record transaction hashes** and gas usage
+5. **Update this table** with results
+
+---
+
 ## 📤 **Live Contract Interaction**
 
 ### 🔗 **Verified Contract Addresses**
