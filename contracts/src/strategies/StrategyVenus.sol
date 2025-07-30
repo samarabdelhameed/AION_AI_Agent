@@ -62,6 +62,7 @@ contract StrategyVenus is BaseStrategy {
         uint256 amount
     ) external payable override onlyVault notPaused {
         require(amount > 0, "Zero deposit");
+        require(msg.value == amount, "msg.value mismatch");
 
         // For now, just track the deposit without actually depositing to Venus
         // This allows testing without Venus integration issues
@@ -96,7 +97,8 @@ contract StrategyVenus is BaseStrategy {
 
         // For now, just transfer BNB back to vault without Venus integration
         // This allows testing without Venus issues
-        payable(_vault).transfer(amount);
+        (bool success, ) = payable(_vault).call{value: amount}("");
+        require(success, "Transfer to vault failed");
         emit Withdrawn(user, amount);
 
         // TODO: Uncomment when Venus is properly configured
@@ -105,12 +107,13 @@ contract StrategyVenus is BaseStrategy {
         //     result == 0,
         //     string(
         //         abi.encodePacked(
-        //             "Venus redeem failed, error code: ",
+        //             "Venus withdraw failed, error code: ",
         //             Strings.toString(result)
         //         )
         //     )
         // );
-        // payable(_vault).transfer(amount);
+        // (bool success, ) = payable(_vault).call{value: amount}("");
+        // require(success, "Transfer to vault failed");
         // emit Withdrawn(user, amount);
     }
 
@@ -127,7 +130,8 @@ contract StrategyVenus is BaseStrategy {
 
         // For now, just transfer BNB back to vault without Venus integration
         // This allows testing without Venus issues
-        payable(_vault).transfer(amount);
+        (bool success, ) = payable(_vault).call{value: amount}("");
+        require(success, "Transfer to vault failed");
         emit YieldWithdrawn(user, amount);
 
         // TODO: Uncomment when Venus is properly configured
@@ -141,7 +145,8 @@ contract StrategyVenus is BaseStrategy {
         //         )
         //     )
         // );
-        // payable(_vault).transfer(amount);
+        // (bool success, ) = payable(_vault).call{value: amount}("");
+        // require(success, "Transfer to vault failed");
         // emit YieldWithdrawn(user, amount);
     }
 
