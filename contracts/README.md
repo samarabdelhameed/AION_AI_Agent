@@ -244,8 +244,8 @@ We have successfully tested the `AIONVault` contract's read functions directly o
 | `strategyLocked()`   | N/A                                          | `False`                                      | ✅ PASS |
 | `totalDeposits()`    | N/A                                          | 0                                            | ✅ PASS |
 | `aiAgent()`          | N/A                                          | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655` | ✅ PASS |
-| `balanceOf(address)` | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655` | 0.01 BNB (10000000000000000)                 | ✅ PASS |
-| `balances(address)`  | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655` | 0.01 BNB (10000000000000000)                 | ✅ PASS |
+| `balanceOf(address)` | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655` | 0.005 BNB (5000000000000000)                 | ✅ PASS |
+| `balances(address)`  | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655` | 0.005 BNB (5000000000000000)                 | ✅ PASS |
 
 ### 🎯 **Key Findings:**
 
@@ -264,7 +264,7 @@ We have successfully tested the `AIONVault` contract's read functions directly o
 | Function Name               | Parameters (if any)        | Transaction Status | Gas Used        | Status     |
 | :-------------------------- | :------------------------- | :----------------- | :-------------- | :--------- |
 | `deposit()`                 | Value: 0.01 BNB            | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
-| `withdraw(uint256 amount)`  | amount: 0.005 BNB          | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
+| `withdraw(uint256 amount)`  | amount: 0.005 BNB          | ✅ Success         | ⏳ To be tested | ✅ PASS    |
 | `withdrawAll()`             | N/A                        | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
 | `claimYield()`              | N/A                        | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
 | `setMinDeposit(uint256)`    | \_minDeposit: 0.02 BNB     | ⏳ To be tested    | ⏳ To be tested | ⏳ PENDING |
