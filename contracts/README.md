@@ -156,8 +156,8 @@ The **AIONVault** and **StrategyVenus** smart contracts have been successfully d
 
 | Contract Name     | Address                                                                                                                        | Transaction Hash                                                                                                                                                          |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **StrategyVenus** | [`0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5`](https://testnet.bscscan.com/address/0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5) | [`0x2023623b4b03a4c4ebea2f881c50bfc0de2df49adb25145f85bd97d9f7553509`](https://testnet.bscscan.com/tx/0x2023623b4b03a4c4ebea2f881c50bfc0de2df49adb25145f85bd97d9f7553509) |
-| **AIONVault**     | [`0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849`](https://testnet.bscscan.com/address/0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849) | [`0x0f13d71c6319ed7167fb42ce48e2ede23a9dea256a60612dfdae4f0f22e2384d`](https://testnet.bscscan.com/tx/0x0f13d71c6319ed7167fb42ce48e2ede23a9dea256a60612dfdae4f0f22e2384d) |
+| **StrategyVenus** | [`0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF`](https://testnet.bscscan.com/address/0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF) | [`0x2fc641ddbd88d32d3cafc2d18d4bdf39ec14ff0298cd43be3e0569b40081bebf`](https://testnet.bscscan.com/tx/0x2fc641ddbd88d32d3cafc2d18d4bdf39ec14ff0298cd43be3e0569b40081bebf) |
+| **AIONVault**     | [`0x2756079D9a706D21944C1B80BAdf6B316e02daF1`](https://testnet.bscscan.com/address/0x2756079D9a706D21944C1B80BAdf6B316e02daF1) | [`0x514c2be8c5eec7e7bed3113056fcc71f76be4d158c00020497266dcc3df3512d`](https://testnet.bscscan.com/tx/0x514c2be8c5eec7e7bed3113056fcc71f76be4d158c00020497266dcc3df3512d) |
 
 ### 📊 **Deployment Details**
 
@@ -165,10 +165,10 @@ The **AIONVault** and **StrategyVenus** smart contracts have been successfully d
 | --------------------- | ---------------------------------------------- |
 | **Network**           | BSC Testnet (Chain ID: 97)                     |
 | **Deployment Script** | `script/DeployAIONVault.s.sol:DeployAIONVault` |
-| **Total Gas Used**    | 5,231,667 gas                                  |
-| **Gas Price**         | 0.1 gwei                                       |
-| **Total Cost**        | 0.0005231667 BNB                               |
-| **Block Number**      | 59983735                                       |
+| **Total Gas Used**    | 5,104,688 gas                                  |
+| **Gas Price**         | 1 gwei                                         |
+| **Total Cost**        | 0.005104688 BNB                                |
+| **Block Number**      | 60033762                                       |
 | **Status**            | ✅ **Successfully Deployed & Initialized**     |
 
 ### 🔧 **Deployment Command**
@@ -185,9 +185,9 @@ forge script script/DeployAIONVault.s.sol:DeployAIONVault \
 ### 📋 **Deployment Logs**
 
 ```
-✅ StrategyVenus deployed at: 0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5
-✅ AIONVault deployed at: 0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849
-✅ Strategy initialized with vault: 0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849
+✅ StrategyVenus deployed at: 0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF
+✅ AIONVault deployed at: 0x2756079D9a706D21944C1B80BAdf6B316e02daF1
+✅ Strategy initialized with vault: 0x2756079D9a706D21944C1B80BAdf6B316e02daF1
 ```
 
 **Deployment Successful ✅ — Onchain Execution Complete**
@@ -202,8 +202,8 @@ Both contracts have been successfully verified on **BscScan** and are publicly a
 
 | Contract Name     | Address                                                                                                                        | Verification Status | Explorer Links                                                                                                                                                                                  |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **StrategyVenus** | [`0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5`](https://testnet.bscscan.com/address/0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5) | ✅ **Verified**     | [BSC Testnet](https://testnet.bscscan.com/address/0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5#code) \| [Sourcify](https://sourcify.dev/#/bsc-testnet/0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5) |
-| **AIONVault**     | [`0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849`](https://testnet.bscscan.com/address/0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849) | ✅ **Verified**     | [BSC Testnet](https://testnet.bscscan.com/address/0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849#code) \| [Sourcify](https://sourcify.dev/#/bsc-testnet/0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849) |
+| **StrategyVenus** | [`0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF`](https://testnet.bscscan.com/address/0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF) | ✅ **Verified**     | [BSC Testnet](https://testnet.bscscan.com/address/0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF#code) \| [Sourcify](https://sourcify.dev/#/bsc-testnet/0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF) |
+| **AIONVault**     | [`0x2756079D9a706D21944C1B80BAdf6B316e02daF1`](https://testnet.bscscan.com/address/0x2756079D9a706D21944C1B80BAdf6B316e02daF1) | ✅ **Verified**     | [BSC Testnet](https://testnet.bscscan.com/address/0x2756079D9a706D21944C1B80BAdf6B316e02daF1#code) \| [Sourcify](https://sourcify.dev/#/bsc-testnet/0x2756079D9a706D21944C1B80BAdf6B316e02daF1) |
 
 ### 🔧 **Verification Commands Used**
 
@@ -234,8 +234,8 @@ forge script script/DeployAIONVault.s.sol:DeployAIONVault \
 
 | Contract Name     | Address                                                                                                                        | Network     |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| **StrategyVenus** | [`0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5`](https://testnet.bscscan.com/address/0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5) | BSC Testnet |
-| **AIONVault**     | [`0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849`](https://testnet.bscscan.com/address/0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849) | BSC Testnet |
+| **StrategyVenus** | [`0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF`](https://testnet.bscscan.com/address/0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF) | BSC Testnet |
+| **AIONVault**     | [`0x2756079D9a706D21944C1B80BAdf6B316e02daF1`](https://testnet.bscscan.com/address/0x2756079D9a706D21944C1B80BAdf6B316e02daF1) | BSC Testnet |
 
 ### 🚀 **How to Interact with Live Contracts**
 
@@ -243,10 +243,10 @@ forge script script/DeployAIONVault.s.sol:DeployAIONVault \
 
 ```bash
 # Check AIONVault balance
-cast call 0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849 "balanceOf(address)" 0xYourAddress --rpc-url https://bsc-testnet.publicnode.com
+cast call 0x2756079D9a706D21944C1B80BAdf6B316e02daF1 "balanceOf(address)" 0xYourAddress --rpc-url https://bsc-testnet.publicnode.com
 
 # Check StrategyVenus APY
-cast call 0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5 "estimatedAPY()" --rpc-url https://bsc-testnet.publicnode.com
+cast call 0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF "estimatedAPY()" --rpc-url https://bsc-testnet.publicnode.com
 
 # Get StrategyVenus stats
 cast call 0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5 "getVenusStats()" --rpc-url https://bsc-testnet.publicnode.com
