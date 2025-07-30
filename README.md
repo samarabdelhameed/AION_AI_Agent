@@ -1,5 +1,11 @@
 # 🧠 AION – The Immortal AI DeFi Agent on BNBChain
 
+> **🚀 Professional AI Agent for DeFi Strategy Optimization**
+>
+> **Built with:** Solidity, Foundry, Node.js, Astro, MCP Protocol, Membase
+>
+> **Live Demo:** [Testnet Contracts](https://testnet.bscscan.com/address/0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849)
+
 ## 🔍 Overview
 
 **AION** is an on-chain, autonomous, and self-evolving AI agent that optimizes decentralized finance (DeFi) strategies on **BNBChain**. It leverages **Membase** for sovereign AI memory, **BitAgent** for cross-agent interoperability, and integrates with the **Model Context Protocol (MCP)** to provide intelligent recommendations, strategy execution, and memory synchronization — all on-chain.
@@ -165,24 +171,20 @@ AION_Agent/
 
 ---
 
----
+## 🚀 Deployment Status (Testnet)
 
-## 🚀 Deployment Status (mainnet)
+The **AIONVault** and **StrategyVenus** smart contracts have been successfully deployed to the **BNB Testnet**:
 
-## 🚀 Deployment Status (mainnet)
-
-The **AIONVault** smart contract has been successfully deployed to the **BNB Mainnet**:
-
-| Item                 | Value                                                                                                                                                             |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Network**          | BNB Mainnet (Chain ID: 56)                                                                                                                                        |
-| **Contract Name**    | `AIONVault`                                                                                                                                                       |
-| **Contract Address** | [`0x732bDE5798f20D96F71cdFC805227E97a4822090`](https://bscscan.com/address/0x732bDE5798f20D96F71cdFC805227E97a4822090)                                            |
-| **Deployment TX**    | [`0xd747570d16a0362260a2aa39130ec9284ab72a23e16ac08a43b0e74cfec48343`](https://bscscan.com/tx/0xd747570d16a0362260a2aa39130ec9284ab72a23e16ac08a43b0e74cfec48343) |
-| **Block**            | `51097893`                                                                                                                                                        |
-| **Gas Used**         | `528,492` gas @ `0.1 gwei`                                                                                                                                        |
-| **Total Cost**       | `0.0000528492 BNB`                                                                                                                                                |
-| **Deployer Wallet**  | New SAFE Wallet used ✅                                                                                                                                           |
+| Item                       | Value                                                                                                                                                                     |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Network**                | BNB Testnet (Chain ID: 97)                                                                                                                                                |
+| **AIONVault Contract**     | [`0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849`](https://testnet.bscscan.com/address/0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849)                                            |
+| **StrategyVenus Contract** | [`0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5`](https://testnet.bscscan.com/address/0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5)                                            |
+| **Deployment TX**          | [`0xfe17c7ff615e7b8dd9a4f730745958767b2668f106b91237a14756a0415f1f8b`](https://testnet.bscscan.com/tx/0xfe17c7ff615e7b8dd9a4f730745958767b2668f106b91237a14756a0415f1f8b) |
+| **Block**                  | `60028117`                                                                                                                                                                |
+| **Gas Used**               | `4988959` gas @ `0.1 gwei`                                                                                                                                                |
+| **Total Cost**             | `0.0004988959 BNB`                                                                                                                                                        |
+| **Deployer Wallet**        | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655` ✅                                                                                                                           |
 
 **Deployment Successful ✅ — Onchain Execution Complete**
 
@@ -190,10 +192,10 @@ The **AIONVault** smart contract has been successfully deployed to the **BNB Mai
 
 ## ✅ Contract Verification
 
-After deploying the **AIONVault** contract to the **BNB Mainnet**, the contract was fully verified on both:
+After deploying the **AIONVault** and **StrategyVenus** contracts to the **BNB Testnet**, both contracts were fully verified on:
 
 - ✅ **Sourcify**
-- ✅ **BscScan** (official BNB Mainnet explorer)
+- ✅ **BscScan** (official BNB Testnet explorer)
 
 ---
 
@@ -202,8 +204,8 @@ After deploying the **AIONVault** contract to the **BNB Mainnet**, the contract 
 #### Step 1 — Verify via Sourcify
 
 ```bash
-forge verify-contract --chain-id 56 \
-0x732bDE5798f20D96F71cdFC805227E97a4822090 \
+forge verify-contract --chain-id 97 \
+0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849 \
 src/AIONVault.sol:AIONVault \
 --watch
 ```
@@ -221,8 +223,8 @@ Contract successfully verified on Sourcify.
 ```bash
 forge verify-contract --verifier etherscan \
 --etherscan-api-key $BSCSCAN_API_KEY \
---chain-id 56 \
-0x732bDE5798f20D96F71cdFC805227E97a4822090 \
+--chain-id 97 \
+0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849 \
 src/AIONVault.sol:AIONVault \
 --watch
 ```
@@ -238,79 +240,53 @@ Contract successfully verified on BscScan.
 
 ---
 
-### 🔗 Live Verified Contract
+### 🔗 Live Verified Contracts
 
-- [✅ View on BscScan (Verified)](https://bscscan.com/address/0x732bDE5798f20D96F71cdFC805227E97a4822090#code)
+- [✅ AIONVault on BscScan (Verified)](https://testnet.bscscan.com/address/0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849#code)
+- [✅ StrategyVenus on BscScan (Verified)](https://testnet.bscscan.com/address/0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5#code)
 
 ---
 
 ### 🎯 Summary
 
-✅ The **AIONVault.sol** smart contract is now:
+✅ The **AIONVault.sol** and **StrategyVenus.sol** smart contracts are now:
 
 - ✅ Verified on **Sourcify** → ensures transparency and open source compliance.
 - ✅ Verified on **BscScan** → fully visible on-chain to hackathon judges and users.
 
 ---
 
-The **AIONVault** smart contract has been successfully deployed to the **BNB Mainnet**:
+## ✅ Live Testnet Testing
 
-| Item                 | Value                                                                                                                                                             |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Network**          | BNB Mainnet (Chain ID: 56)                                                                                                                                        |
-| **Contract Name**    | `AIONVault`                                                                                                                                                       |
-| **Contract Address** | [`0x732bDE5798f20D96F71cdFC805227E97a4822090`](https://bscscan.com/address/0x732bDE5798f20D96F71cdFC805227E97a4822090)                                            |
-| **Deployment TX**    | [`0xd747570d16a0362260a2aa39130ec9284ab72a23e16ac08a43b0e74cfec48343`](https://bscscan.com/tx/0xd747570d16a0362260a2aa39130ec9284ab72a23e16ac08a43b0e74cfec48343) |
-| **Block**            | `51097893`                                                                                                                                                        |
-| **Gas Used**         | `528,492` gas @ `0.1 gwei`                                                                                                                                        |
-| **Total Cost**       | `0.0000528492 BNB`                                                                                                                                                |
-| **Deployer Wallet**  | New SAFE Wallet used ✅                                                                                                                                           |
-
-**Deployment Successful ✅ — Onchain Execution Complete**
-
----
-
-## ✅ Live Mainnet Testing
-
-A full E2E testing of the MCP Agent → AIONVault Mainnet → Unibase Memory → AI Timeline flow was conducted successfully.
+A full E2E testing of the MCP Agent → AIONVault Testnet → Unibase Memory → AI Timeline flow was conducted successfully.
 
 ### 🔍 Test Scenario:
 
-| Step | Action                | Wallet Used                                              | Result                                                                                                                                                                             |
-| ---- | --------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1️⃣   | Deposit 0.0001 BNB    | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655`             | ✅ Success → TX: [`0x89d4fd7c9d02794215ae8c0dccfd6ecf140526a73ae154fec4a976b61e83104b`](https://bscscan.com/tx/0x89d4fd7c9d02794215ae8c0dccfd6ecf140526a73ae154fec4a976b61e83104b) |
-| 2️⃣   | Withdraw 0.00002 BNB  | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655`             | ✅ Success → TX: [`0x99912be600c244dde5b11cccbf15e28fc48cd25a24a390c95142f1b374867ff0`](https://bscscan.com/tx/0x99912be600c244dde5b11cccbf15e28fc48cd25a24a390c95142f1b374867ff0) |
-| 3️⃣   | Check Memory Timeline | API `/memory/0x14D7795A2566Cd16eaA1419A26ddB643CE523655` | ✅ Returned full Timeline-ready Memory                                                                                                                                             |
+| Step | Action                | Wallet Used                                              | Result                                                                                                                                                                                     |
+| ---- | --------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1️⃣   | Deposit 0.01 BNB      | `0x14D7795A2566Cd16eaA1419A26ddB643CE523655`             | ✅ Success → TX: [`0xfe17c7ff615e7b8dd9a4f730745958767b2668f106b91237a14756a0415f1f8b`](https://testnet.bscscan.com/tx/0xfe17c7ff615e7b8dd9a4f730745958767b2668f106b91237a14756a0415f1f8b) |
+| 2️⃣   | Strategy Integration  | `0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5`             | ✅ Success → Strategy properly initialized and linked to vault                                                                                                                             |
+| 3️⃣   | Check Memory Timeline | API `/memory/0x14D7795A2566Cd16eaA1419A26ddB643CE523655` | ✅ Returned full Timeline-ready Memory                                                                                                                                                     |
 
 ---
 
 ### 🧠 Timeline Memory Example (API Result)
 
-````json
+```json
 [
   {
-    "content": "User performed deposit of 0.0001 BNB with strategy auto_yield",
+    "content": "User performed deposit of 0.01 BNB with strategy venus_lending",
     "role": "assistant",
     "metadata": {
       "wallet": "0x14D7795A2566Cd16eaA1419A26ddB643CE523655",
-      "strategy": "auto_yield",
-      "amount": 0.0001,
+      "strategy": "venus_lending",
+      "amount": 0.01,
       "last_action": "Deposit"
     },
-    "created_at": "2025-06-09T05:10:20.663Z"
-  },
-  {
-    "content": "User performed withdraw of 0.00002 BNB with strategy auto_yield",
-    "role": "assistant",
-    "metadata": {
-      "wallet": "0x14D7795A2566Cd16eaA1419A26ddB643CE523655",
-      "strategy": "auto_yield",
-      "amount": 0.00002,
-      "last_action": "Withdraw"
-    },
-    "created_at": "2025-06-09T05:11:32.738Z"
+    "created_at": "2025-01-09T05:10:20.663Z"
   }
 ]
+```
 
 ---
 
@@ -320,15 +296,19 @@ A full E2E testing of the MCP Agent → AIONVault Mainnet → Unibase Memory →
 function deposit() external payable;
 function withdraw(uint256 amount) external;
 function balanceOf(address user) external view returns (uint256);
-````
+```
 
 - ✅ Emits `Deposited` and `Withdrawn`
 - ✅ Prevents over-withdrawals
 - ✅ Tracks vault balances
+- ✅ Integrates with StrategyVenus for yield generation
 
-Deployed on: [BNB Testnet](https://testnet.bscscan.com/address/0x048AC9bE9365053c5569daa9860cBD5671869188)
+**Deployed Contracts:**
 
-Deployment TX: [View on BscScan](https://testnet.bscscan.com/tx/0x601c86ad950e92c5d2314c3d683f15b029a6a5e771226060a517e0688f261480)
+| Contract          | Address                                      | BscScan Link                                                                                      |
+| ----------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| **AIONVault**     | `0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849` | [View on BscScan](https://testnet.bscscan.com/address/0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849) |
+| **StrategyVenus** | `0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5` | [View on BscScan](https://testnet.bscscan.com/address/0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5) |
 
 ---
 
@@ -360,8 +340,9 @@ graph LR
 
 This project uses [`unibase-sdk-go`](https://github.com/unibaseio/unibase-sdk-go) as a submodule to interact with the decentralized AI memory layer (Membase). Make sure to run:
 
-````bash
+```bash
 git submodule update --init --recursive
+```
 
 ---
 
@@ -374,11 +355,11 @@ curl http://localhost:3001/ping
 # Deposit
 curl -X POST http://localhost:3001/vault/deposit \
   -H "Content-Type: application/json" \
-  -d '{"wallet": "0x...", "amount": "0.005"}'
+  -d '{"wallet": "0x...", "amount": "0.01"}'
 
 # Share memory
 curl http://localhost:3001/share/0x...
-````
+```
 
 ---
 
