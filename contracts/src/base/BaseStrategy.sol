@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @notice Error thrown when provided address is zero
 error ZeroAddress();
+
 /// @notice Error thrown when caller is not authorized to initialize
 error NotAuthorizedToInitialize();
 
@@ -31,7 +32,9 @@ abstract contract BaseStrategy is IStrategy, IPausableStrategy, Ownable {
     // ========== Constructor ==========
     /// @notice Initialize the base strategy with an owner
     /// @param initialOwner The address that will own this strategy
-    constructor(address initialOwner) Ownable(initialOwner) {}
+    constructor(address initialOwner) Ownable(initialOwner) {
+        // Constructor is empty as initialization is done via initialize()
+    }
 
     // ===========================
     // Modifiers
@@ -146,31 +149,28 @@ abstract contract BaseStrategy is IStrategy, IPausableStrategy, Ownable {
     }
 
     /// @notice Get the principal amount for a user
-    /// @param user The address of the user
     /// @return The principal amount for the user
     /// @dev Must be implemented by derived contracts
     function principalOf(
-        address user
+        address /* user */
     ) external view virtual override returns (uint256) {
         revert("Not implemented in base contract");
     }
 
     /// @notice Get the last update timestamp for a user
-    /// @param user The address of the user
     /// @return The last update timestamp for the user
     /// @dev Must be implemented by derived contracts
     function lastUpdated(
-        address user
+        address /* user */
     ) external view virtual override returns (uint256) {
         revert("Not implemented in base contract");
     }
 
     /// @notice Get the pending rewards for a user
-    /// @param user The address of the user
     /// @return The pending rewards for the user
     /// @dev Must be implemented by derived contracts
     function pendingRewards(
-        address user
+        address /* user */
     ) external view virtual override returns (uint256) {
         revert("Not implemented in base contract");
     }

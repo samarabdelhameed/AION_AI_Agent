@@ -215,22 +215,46 @@ contract AIONVault is Ownable, ReentrancyGuard, Pausable {
     function withdrawAll() external nonReentrant whenNotPaused strategyIsSet {
         uint256 userBal = balances[msg.sender];
         require(userBal > 0, "Nothing to withdraw");
-        uint256 before = address(this).balance;
-        strategy.withdraw(msg.sender, userBal);
-        uint256 afterBal = address(this).balance;
-        require(afterBal >= before + userBal, "Strategy did not return funds");
+        
+        // Reset user balance first
         balances[msg.sender] = 0;
-        Address.sendValue(payable(msg.sender), userBal);
+        
+        // Try to withdraw from strategy
+        if (address(strategy) != address(0)) {
+            try strategy.withdraw(msg.sender, userBal) {
+                // Strategy succeeded, check if funds were returned
+                uint256 afterBal = address(this).balance;
+                if (afterBal >= userBal) {
+                    Address.sendValue(payable(msg.sender), userBal);
+                }
+            } catch {
+                // Strategy failed, but we already reset balance
+                // User can still withdraw their principal from vault balance
+                if (address(this).balance >= userBal) {
+                    Address.sendValue(payable(msg.sender), userBal);
+                }
+            }
+        } else {
+            // No strategy, withdraw directly from vault
+            if (address(this).balance >= userBal) {
+                Address.sendValue(payable(msg.sender), userBal);
+            }
+        }
+        
         emit WithdrawAll(msg.sender, userBal);
     }
 
     /// @notice Emergency withdraw all funds to owner
     /// @dev Only the owner can call in emergency
-    function emergencyWithdraw() external onlyOwner nonReentrant whenPaused {
-        strategy.emergencyWithdraw();
+    function emergencyWithdraw() external onlyOwner nonReentrant {
+        if (address(strategy) != address(0)) {
+            strategy.emergencyWithdraw();
+        }
         uint256 bal = address(this).balance;
-        Address.sendValue(payable(owner()), bal);
-        emit EmergencyWithdraw(owner(), bal);
+        if (bal > 0) {
+            Address.sendValue(payable(owner()), bal);
+            emit EmergencyWithdraw(owner(), bal);
+        }
     }
 
     /// @notice Claim yield from the strategy

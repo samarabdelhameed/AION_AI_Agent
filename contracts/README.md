@@ -156,8 +156,8 @@ The **AIONVault** and **StrategyVenus** smart contracts have been successfully d
 
 | Contract Name     | Address                                                                                                                        | Transaction Hash                                                                                                                                                          |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **StrategyVenus** | [`0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF`](https://testnet.bscscan.com/address/0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF) | [`0x2fc641ddbd88d32d3cafc2d18d4bdf39ec14ff0298cd43be3e0569b40081bebf`](https://testnet.bscscan.com/tx/0x2fc641ddbd88d32d3cafc2d18d4bdf39ec14ff0298cd43be3e0569b40081bebf) |
-| **AIONVault**     | [`0x2756079D9a706D21944C1B80BAdf6B316e02daF1`](https://testnet.bscscan.com/address/0x2756079D9a706D21944C1B80BAdf6B316e02daF1) | [`0x514c2be8c5eec7e7bed3113056fcc71f76be4d158c00020497266dcc3df3512d`](https://testnet.bscscan.com/tx/0x514c2be8c5eec7e7bed3113056fcc71f76be4d158c00020497266dcc3df3512d) |
+| **StrategyVenus** | [`0x2cb7d7563B0e0e573171D5dBebe95896b20e9E38`](https://testnet.bscscan.com/address/0x2cb7d7563B0e0e573171D5dBebe95896b20e9E38) | [`0x2023623b4b03a4c4ebea2f881c50bfc0de2df49adb25145f85bd97d9f7553509`](https://testnet.bscscan.com/tx/0x2023623b4b03a4c4ebea2f881c50bfc0de2df49adb25145f85bd97d9f7553509) |
+| **AIONVault**     | [`0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5`](https://testnet.bscscan.com/address/0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5) | [`0x0f13d71c6319ed7167fb42ce48e2ede23a9dea256a60612dfdae4f0f22e2384d`](https://testnet.bscscan.com/tx/0x0f13d71c6319ed7167fb42ce48e2ede23a9dea256a60612dfdae4f0f22e2384d) |
 
 ### 📊 **Deployment Details**
 
@@ -202,8 +202,8 @@ Both contracts have been successfully verified on **BscScan** and are publicly a
 
 | Contract Name     | Address                                                                                                                        | Verification Status | Explorer Links                                                                                                                                                                                  |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **StrategyVenus** | [`0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF`](https://testnet.bscscan.com/address/0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF) | ✅ **Verified**     | [BSC Testnet](https://testnet.bscscan.com/address/0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF#code) \| [Sourcify](https://sourcify.dev/#/bsc-testnet/0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF) |
-| **AIONVault**     | [`0x2756079D9a706D21944C1B80BAdf6B316e02daF1`](https://testnet.bscscan.com/address/0x2756079D9a706D21944C1B80BAdf6B316e02daF1) | ✅ **Verified**     | [BSC Testnet](https://testnet.bscscan.com/address/0x2756079D9a706D21944C1B80BAdf6B316e02daF1#code) \| [Sourcify](https://sourcify.dev/#/bsc-testnet/0x2756079D9a706D21944C1B80BAdf6B316e02daF1) |
+| **StrategyVenus** | [`0x2cb7d7563B0e0e573171D5dBebe95896b20e9E38`](https://testnet.bscscan.com/address/0x2cb7d7563B0e0e573171D5dBebe95896b20e9E38) | ✅ **Verified**     | [BSC Testnet](https://testnet.bscscan.com/address/0x2cb7d7563B0e0e573171D5dBebe95896b20e9E38#code) \| [Sourcify](https://sourcify.dev/#/bsc-testnet/0x2cb7d7563B0e0e573171D5dBebe95896b20e9E38) |
+| **AIONVault**     | [`0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5`](https://testnet.bscscan.com/address/0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5) | ✅ **Verified**     | [BSC Testnet](https://testnet.bscscan.com/address/0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5#code) \| [Sourcify](https://sourcify.dev/#/bsc-testnet/0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5) |
 
 ### 🔧 **Verification Commands Used**
 
@@ -232,7 +232,7 @@ forge script script/DeployAIONVault.s.sol:DeployAIONVault \
 
 We have successfully tested the `AIONVault` contract's read functions directly on the BscScan UI, confirming their correct operation and data retrieval.
 
-**Contract Address:** [`0x2756079D9a706D21944C1B80BAdf6B316e02daF1`](https://testnet.bscscan.com/address/0x2756079d9a706d21944c1b80badf6b316e02daf1#readContract)
+**Contract Address:** [`0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5`](https://testnet.bscscan.com/address/0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5#readContract)
 
 | Function Name        | Input (if any)                               | Observed Output (Decoded)                    | Status  |
 | :------------------- | :------------------------------------------- | :------------------------------------------- | :------ |
@@ -259,7 +259,7 @@ We have successfully tested the `AIONVault` contract's read functions directly o
 
 ## 🚀 **Live UI Testing Results (Write Contract)**
 
-**Contract Address:** [`0x2756079D9a706D21944C1B80BAdf6B316e02daF1`](https://testnet.bscscan.com/address/0x2756079d9a706d21944c1b80badf6b316e02daf1#writeContract)
+**Contract Address:** [`0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5`](https://testnet.bscscan.com/address/0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5#writeContract)
 
 | Function Name               | Parameters (if any)        | Transaction Status | Gas Used        | Status     |
 | :-------------------------- | :------------------------- | :----------------- | :-------------- | :--------- |
@@ -289,8 +289,8 @@ We have successfully tested the `AIONVault` contract's read functions directly o
 
 | Contract Name     | Address                                                                                                                        | Network     |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| **StrategyVenus** | [`0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF`](https://testnet.bscscan.com/address/0xA7D94cC0f1e0D3B2e7537BD9afd492F87fff4DfF) | BSC Testnet |
-| **AIONVault**     | [`0x2756079D9a706D21944C1B80BAdf6B316e02daF1`](https://testnet.bscscan.com/address/0x2756079D9a706D21944C1B80BAdf6B316e02daF1) | BSC Testnet |
+| **StrategyVenus** | [`0x2cb7d7563B0e0e573171D5dBebe95896b20e9E38`](https://testnet.bscscan.com/address/0x2cb7d7563B0e0e573171D5dBebe95896b20e9E38) | BSC Testnet |
+| **AIONVault**     | [`0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5`](https://testnet.bscscan.com/address/0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5) | BSC Testnet |
 
 ### 🚀 **How to Interact with Live Contracts**
 
@@ -412,10 +412,10 @@ cast call 0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849 "getVaultStats(address)" 0x
 
 ### 🔗 **BscScan Interaction Links**
 
-1. **AIONVault Read Contract:** https://testnet.bscscan.com/address/0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849#readContract
-2. **AIONVault Write Contract:** https://testnet.bscscan.com/address/0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849#writeContract
-3. **StrategyVenus Read Contract:** https://testnet.bscscan.com/address/0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5#readContract
-4. **StrategyVenus Write Contract:** https://testnet.bscscan.com/address/0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5#writeContract
+1. **AIONVault Read Contract:** https://testnet.bscscan.com/address/0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5#readContract
+2. **AIONVault Write Contract:** https://testnet.bscscan.com/address/0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5#writeContract
+3. **StrategyVenus Read Contract:** https://testnet.bscscan.com/address/0x2cb7d7563B0e0e573171D5dBebe95896b20e9E38#readContract
+4. **StrategyVenus Write Contract:** https://testnet.bscscan.com/address/0x2cb7d7563B0e0e573171D5dBebe95896b20e9E38#writeContract
 
 ---
 
@@ -437,8 +437,8 @@ cast call 0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849 "getVaultStats(address)" 0x
 
 1. **✅ Successful Deployment**
 
-   - StrategyVenus: `0x20F3880756be1BeA1aD4235692aCfbC97fAdfDa5`
-   - AIONVault: `0x4625bB7f14D4e34F9D11a5Df7566cd7Ec1994849`
+   - StrategyVenus: `0x2cb7d7563B0e0e573171D5dBebe95896b20e9E38`
+   - AIONVault: `0xE66f20F1aa26D941218d9678738d0e46A5eFfCf5`
 
 2. **✅ Complete Verification**
 
