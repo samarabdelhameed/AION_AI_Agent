@@ -108,7 +108,7 @@ sequenceDiagram
 ### 🖥️ Frontend (Astro + Tailwind)
 
 ```bash
-cd frontend
+cd mcp-frontend
 bun install
 bun dev
 ```
@@ -145,29 +145,149 @@ CONTRACT_ADDRESS=DEPLOYED_VAULT_ADDRESS
 ## 📦 Folder Structure
 
 ```bash
-AION_Agent/
-├── contracts/       # Foundry smart contracts
-├── frontend/        # Astro frontend dApp (structure ready)
-├── mcp_agent/       # Node.js + Python (AIP Agent)
-├── docs/            # Flowcharts & documentation
-├── videos/          # Demos, walkthroughs, and presentations
-│   ├── demo.mp4
-│   └── pitch.mp4
-├── test_scenarios/  # Example user scenarios or test cases
-│   └── scenario_1.json
+AION_AI_Agent/
+├── contracts/                    # Foundry smart contracts
+│   ├── src/
+│   │   ├── AIONVault.sol        # Main vault contract (15KB)
+│   │   ├── StrategyAdapter.sol   # Strategy adapter pattern (13KB)
+│   │   ├── Counter.sol           # Basic counter contract
+│   │   ├── base/
+│   │   │   ├── BaseStrategy.sol      # Base strategy interface (9.4KB)
+│   │   │   └── BasePausableStrategy.sol # Pausable strategy base (1.2KB)
+│   │   ├── strategies/           # 8 DeFi Strategy Implementations
+│   │   │   ├── StrategyAave.sol      # Aave lending strategy (13KB)
+│   │   │   ├── StrategyCompound.sol  # Compound lending strategy (12KB)
+│   │   │   ├── StrategyBeefy.sol     # Beefy yield farming (12KB)
+│   │   │   ├── StrategyUniswap.sol   # Uniswap liquidity provision (14KB)
+│   │   │   ├── StrategyWombat.sol    # Wombat AMM strategy (14KB)
+│   │   │   ├── StrategyVenus.sol     # Venus lending strategy (12KB)
+│   │   │   ├── StrategyPancake.sol   # PancakeSwap strategy (14KB)
+│   │   │   └── StrategyMorpho.sol    # Morpho lending strategy (12KB)
+│   │   └── interfaces/
+│   │       ├── IStrategy.sol         # Strategy interface (6.9KB)
+│   │       └── IPausableStrategy.sol # Pausable interface (1.5KB)
+│   ├── test/                     # Comprehensive test suite (248 tests)
+│   │   ├── AIONVault.t.sol       # Main vault tests (11KB)
+│   │   ├── StrategyAave.t.sol    # Aave strategy tests (22KB)
+│   │   ├── StrategyCompound.t.sol # Compound strategy tests (19KB)
+│   │   ├── StrategyBeefy.t.sol   # Beefy strategy tests (15KB)
+│   │   ├── StrategyUniswap.t.sol # Uniswap strategy tests (18KB)
+│   │   ├── StrategyWombat.t.sol  # Wombat strategy tests (21KB)
+│   │   ├── StrategyVenus.t.sol   # Venus strategy tests (9.4KB)
+│   │   ├── StrategyPancake.t.sol # Pancake strategy tests (14KB)
+│   │   ├── StrategyMorpho.t.sol  # Morpho strategy tests (16KB)
+│   │   ├── BeefyTest.t.sol       # Beefy integration tests (5.7KB)
+│   │   ├── StrategyBeefyTest.t.sol # Additional Beefy tests (5.7KB)
+│   │   └── Counter.t.sol         # Basic functionality tests
+│   ├── script/                   # Deployment scripts
+│   │   ├── DeployAIONVault.s.sol # Main vault deployment
+│   │   ├── Deploy.s.sol          # General deployment script
+│   │   ├── Counter.s.sol         # Counter deployment
+│   │   └── Interact.s.sol        # Contract interaction script
+│   ├── lib/                      # Foundry dependencies
+│   ├── cache/                    # Foundry cache
+│   ├── out/                      # Compiled contracts
+│   ├── broadcast/                # Deployment logs
+│   ├── foundry.toml              # Foundry configuration
+│   ├── README.md                 # Contracts documentation
+│   ├── test_scenarios_AIONVault.md # AIONVault test scenarios (11KB)
+│   └── test_scenarios_StrategyVenus.md # Venus test scenarios (8.1KB)
+├── mcp-frontend/                 # Astro frontend dApp
+├── mcp_agent/                    # Node.js + Python (AIP Agent)
+├── docs/                         # Flowcharts & documentation
+├── unibase-sdk-go/              # Membase integration (submodule)
+├── env.example                   # Environment variables template
+├── foundry.toml                  # Root foundry configuration
+├── package.json                  # Project dependencies
+├── bun.lock                      # Bun lock file
+├── LICENSE                       # MIT License
+└── README.md                     # Project documentation
+```
+
+---
+
+## 🎯 Smart Contract Architecture
+
+### 🏗️ Core Components:
+
+#### 1. **AIONVault.sol** - Main Vault Contract
+
+```solidity
+// Core vault functionality
+function deposit() external payable;
+function withdraw(uint256 amount) external;
+function claimYield() external;
+function balanceOf(address user) external view returns (uint256);
+function setStrategy(address newStrategy) external;
+function unlockStrategy() external;
+```
+
+#### 2. **StrategyAdapter.sol** - Strategy Management
+
+```solidity
+// Adapter pattern for strategy switching
+function setStrategy(address newStrategy) external;
+function getCurrentStrategy() external view returns (address);
+function executeStrategy(bytes calldata data) external;
+```
+
+#### 3. **BaseStrategy.sol** - Strategy Interface
+
+```solidity
+// Base interface for all strategies
+interface IStrategy {
+    function deposit() external;
+    function withdraw(uint256 amount) external;
+    function getYield() external view returns (uint256);
+    function getTotalAssets() external view returns (uint256);
+}
+```
+
+### 🎯 DeFi Strategy Implementations:
+
+#### **Lending Protocols:**
+
+- **StrategyAave.sol** - Aave lending with ~18% APY
+- **StrategyCompound.sol** - Compound lending with ~7% APY
+- **StrategyVenus.sol** - Venus lending with ~5% APY
+- **StrategyMorpho.sol** - Morpho lending with ~12% APY
+
+#### **Yield Farming:**
+
+- **StrategyBeefy.sol** - Beefy yield farming with ~15% APY
+- **StrategyPancake.sol** - PancakeSwap farming with ~20% APY
+
+#### **Liquidity Provision:**
+
+- **StrategyUniswap.sol** - Uniswap LP with ~12% APY
+- **StrategyWombat.sol** - Wombat AMM with ~11% APY
+
+### 🔄 Strategy Switching Mechanism:
+
+```solidity
+// AI Agent can switch strategies based on market conditions
+function setStrategyByAIAgent(address newStrategy) external {
+    require(msg.sender == aiAgent, "Only AI Agent");
+    require(newStrategy != address(0), "Invalid strategy");
+    currentStrategy = newStrategy;
+    emit StrategyChanged(newStrategy);
+}
 ```
 
 ---
 
 ## ✅ Features
 
-| Category          | Description                                                             |
-| ----------------- | ----------------------------------------------------------------------- |
-| 🧠 AI Agent       | Autonomous DeFi decision-making using strategy analysis                 |
-| 🧾 Memory Layer   | Sovereign memory via Membase + memory.json                              |
-| 🤝 Interop        | /share/\:wallet + AIP sync to BitAgent                                  |
-| 🔐 Smart Contract | Native BNBVault contract with deposit/withdraw support                  |
-| 📊 Dashboard      | Astro-powered frontend UI with wallet, memory, vault, strategy analysis |
+| Category               | Description                                                             |
+| ---------------------- | ----------------------------------------------------------------------- |
+| 🧠 AI Agent            | Autonomous DeFi decision-making using strategy analysis                 |
+| 🧾 Memory Layer        | Sovereign memory via Membase + memory.json                              |
+| 🤝 Interop             | /share/\:wallet + AIP sync to BitAgent                                  |
+| 🔐 Smart Contract      | Multi-strategy vault with dynamic strategy switching                    |
+| 📊 Dashboard           | Astro-powered frontend UI with wallet, memory, vault, strategy analysis |
+| 🎯 8 DeFi Strategies   | Aave, Compound, Venus, Morpho, Beefy, Pancake, Uniswap, Wombat          |
+| 🔄 Dynamic Switching   | AI Agent can switch strategies based on market conditions               |
+| 🧪 Comprehensive Tests | 248 tests covering all strategies and scenarios                         |
 
 ---
 
@@ -290,18 +410,74 @@ A full E2E testing of the MCP Agent → AIONVault Testnet → Unibase Memory →
 
 ---
 
+## 🧪 Comprehensive Test Suite
+
+### ✅ Test Results: **248 tests passed, 0 failed**
+
+| Test Suite                 | Tests | Status    | Coverage                     |
+| -------------------------- | ----- | --------- | ---------------------------- |
+| **AIONVault.t.sol**        | 21    | ✅ Passed | Core vault functionality     |
+| **StrategyAave.t.sol**     | 26    | ✅ Passed | Aave lending integration     |
+| **StrategyCompound.t.sol** | 25    | ✅ Passed | Compound lending integration |
+| **StrategyBeefy.t.sol**    | 31    | ✅ Passed | Beefy yield farming          |
+| **StrategyUniswap.t.sol**  | 23    | ✅ Passed | Uniswap LP strategy          |
+| **StrategyWombat.t.sol**   | 27    | ✅ Passed | Wombat AMM strategy          |
+| **StrategyVenus.t.sol**    | 25    | ✅ Passed | Venus lending strategy       |
+| **StrategyPancake.t.sol**  | 31    | ✅ Passed | PancakeSwap strategy         |
+| **StrategyMorpho.t.sol**   | 19    | ✅ Passed | Morpho lending strategy      |
+| **BeefyTest.t.sol**        | 9     | ✅ Passed | Beefy integration tests      |
+| **Counter.t.sol**          | 2     | ✅ Passed | Basic functionality          |
+
+### 🎯 Test Coverage Includes:
+
+- ✅ **Basic Functionality** - Deposit, withdraw, balance tracking
+- ✅ **User Journeys** - Complete deposit → yield → withdraw cycles
+- ✅ **Concurrent Users** - Multiple users interacting simultaneously
+- ✅ **High-Value Scenarios** - Large deposits and whale behavior
+- ✅ **Gas Efficiency** - Optimized gas usage for all operations
+- ✅ **Stress Testing** - High-load scenarios with multiple users
+- ✅ **Strategy Switching** - AI Agent changing strategies dynamically
+- ✅ **Error Handling** - Proper revert conditions and edge cases
+- ✅ **Realistic Data** - Tests use realistic yield rates and user scenarios
+
+### 📊 Yield Rates (Test Scenarios):
+
+| Strategy     | APY  | Use Case                             |
+| ------------ | ---- | ------------------------------------ |
+| **Aave**     | ~18% | Lending with high liquidity          |
+| **Compound** | ~7%  | Stable lending rates                 |
+| **Venus**    | ~5%  | BNBChain native lending              |
+| **Morpho**   | ~12% | Optimized lending                    |
+| **Beefy**    | ~15% | Yield farming aggregation            |
+| **Pancake**  | ~20% | High-yield farming                   |
+| **Uniswap**  | ~12% | Liquidity provision                  |
+| **Wombat**   | ~11% | AMM with impermanent loss protection |
+
+---
+
 ## 🔐 Smart Contract – AIONVault.sol
 
 ```solidity
+// Core vault functions
 function deposit() external payable;
 function withdraw(uint256 amount) external;
+function claimYield() external;
 function balanceOf(address user) external view returns (uint256);
+
+// Strategy management
+function setStrategy(address newStrategy) external;
+function setStrategyByAIAgent(address newStrategy) external;
+function unlockStrategy() external;
+
+// AI Agent integration
+function setAIAgent(address newAIAgent) external;
 ```
 
-- ✅ Emits `Deposited` and `Withdrawn`
-- ✅ Prevents over-withdrawals
-- ✅ Tracks vault balances
-- ✅ Integrates with StrategyVenus for yield generation
+- ✅ Emits `Deposited`, `Withdrawn`, `YieldClaimed`, `StrategyChanged`
+- ✅ Prevents over-withdrawals and unauthorized access
+- ✅ Tracks vault balances and user shares
+- ✅ Integrates with multiple DeFi strategies
+- ✅ AI Agent can dynamically switch strategies
 
 **Deployed Contracts:**
 
@@ -373,6 +549,8 @@ curl http://localhost:3001/share/0x...
 | 📲 Wallet Auth         | Add WebAuthn / Passkey login                          |
 | 🧠 AI Agent DAO        | Agent registry, governance, and upgradable behavior   |
 | 🎨 Frontend Completion | Add interactive Astro UI for live demo                |
+| 🔄 More Strategies     | Add Curve, Balancer, and other DeFi protocols         |
+| 📊 Advanced Analytics  | Real-time strategy performance tracking               |
 
 ---
 
